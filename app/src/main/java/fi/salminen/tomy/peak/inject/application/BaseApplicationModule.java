@@ -1,5 +1,6 @@
 package fi.salminen.tomy.peak.inject.application;
 
+
 import android.app.Application;
 import android.content.Context;
 
@@ -19,14 +20,15 @@ public class BaseApplicationModule {
 
     @Provides
     @Singleton
-    public Application provideApplication() {
-        return application;
+    @ForApplication
+    public Context provideApplicationContext() {
+        return application.getApplicationContext();
     }
 
     @Provides
     @Singleton
-    public Context provideApplicationContext() {
-        return application.getApplicationContext();
+    public Application provideApplication() {
+        return application;
     }
 
 }

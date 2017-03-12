@@ -3,6 +3,7 @@ package fi.salminen.tomy.peak.app;
 import android.support.annotation.NonNull;
 
 import fi.salminen.tomy.peak.core.BaseApplication;
+import fi.salminen.tomy.peak.inject.application.BaseApplicationModule;
 
 
 public class PeakApplication extends BaseApplication<PeakApplicationComponent> {
@@ -16,7 +17,7 @@ public class PeakApplication extends BaseApplication<PeakApplicationComponent> {
     @Override
     protected PeakApplicationComponent createComponent() {
         return DaggerPeakApplicationComponent.builder()
-                .peakApplicationModule(new PeakApplicationModule())
+                .baseApplicationModule(new BaseApplicationModule(this))
                 .build();
     }
 }

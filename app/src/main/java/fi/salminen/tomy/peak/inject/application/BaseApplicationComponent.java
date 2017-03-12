@@ -8,11 +8,14 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
+
 @Component(modules = BaseApplicationModule.class)
 @Singleton
 public interface BaseApplicationComponent {
+
+    Application getApplication();
+
+    @ForApplication
     Context getApplicationContext();
 
-    @ApplicationScope
-    Application getApplication();
 }
