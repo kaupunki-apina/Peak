@@ -1,5 +1,7 @@
 package fi.salminen.tomy.peak.network;
 
+import dagger.Component;
 
-public class JourneysApiComponent {
+@Component(modules = JourneysApiModule.class)
+public interface JourneysApiComponent {
 }
