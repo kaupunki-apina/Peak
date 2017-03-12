@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".app.PeakApplication">
-        <activity android:name=".TrackingActivity">
+        <activity android:name=".activities.tracking.TrackingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

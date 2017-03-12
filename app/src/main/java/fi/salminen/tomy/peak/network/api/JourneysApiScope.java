@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.network;
+package fi.salminen.tomy.peak.network.api;
 
 
 import javax.inject.Scope;
