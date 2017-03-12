@@ -6,8 +6,8 @@ import android.content.Context;
 import dagger.Component;
 import fi.salminen.tomy.peak.app.PeakApplicationComponent;
 
-@ActivityScope
 
+@ActivityScope
 @Component(dependencies = PeakApplicationComponent.class, modules = BaseActivityModule.class)
 public interface BaseActivityComponent {
 

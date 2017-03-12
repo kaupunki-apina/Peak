@@ -18,7 +18,7 @@
         </activity>
 
         <service
-            android:name=".services.BusLocationService"
+            android:name=".services.bus.BusLocationService"
             android:enabled="true"
             android:exported="true"/>
     </application>

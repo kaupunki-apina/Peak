@@ -1,5 +1,6 @@
 package fi.salminen.tomy.peak.app;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import fi.salminen.tomy.peak.core.BaseApplication;
@@ -19,5 +20,9 @@ public class PeakApplication extends BaseApplication<PeakApplicationComponent> {
         return DaggerPeakApplicationComponent.builder()
                 .baseApplicationModule(new BaseApplicationModule(this))
                 .build();
+    }
+
+    public static PeakApplication getApplication(Context context) {
+        return (PeakApplication) context.getApplicationContext();
     }
 }

@@ -22,7 +22,7 @@ public class TrackingActivity extends BaseActivity<TrackingActivityComponent> {
     protected TrackingActivityComponent createComponent() {
         return DaggerTrackingActivityComponent.builder()
                 .baseActivityModule(new BaseActivityModule(this))
-                .peakApplicationComponent(((PeakApplication) getApplication()).component())
+                .peakApplicationComponent(PeakApplication.getApplication(this).component())
                 .build();
     }
 
