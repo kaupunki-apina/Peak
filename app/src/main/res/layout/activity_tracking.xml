@@ -4,6 +4,6 @@
     android:id="@+id/activity_tracking"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.salminen.tomy.peak.activities.tracking.TrackingActivity">
+    tools:context="fi.salminen.tomy.peak.activity.tracking.TrackingActivity">
 
 </RelativeLayout>

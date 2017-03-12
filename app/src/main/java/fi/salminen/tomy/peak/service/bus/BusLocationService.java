@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.services.bus;
+package fi.salminen.tomy.peak.service.bus;
 
 import android.content.Intent;
 import android.os.IBinder;

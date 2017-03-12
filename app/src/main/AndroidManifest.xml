@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".app.PeakApplication">
-        <activity android:name=".activities.tracking.TrackingActivity">
+        <activity android:name=".activity.tracking.TrackingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +18,7 @@
         </activity>
 
         <service
-            android:name=".services.bus.BusLocationService"
+            android:name=".service.bus.BusLocationService"
             android:enabled="true"
             android:exported="true"/>
     </application>
