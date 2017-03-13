@@ -3,10 +3,14 @@ package fi.salminen.tomy.peak.service.bus;
 
 import dagger.Component;
 import fi.salminen.tomy.peak.app.PeakApplicationComponent;
+import fi.salminen.tomy.peak.inject.service.BaseServiceComponent;
+import fi.salminen.tomy.peak.inject.service.ServiceScope;
 
-@BusServiceScope
-@Component(dependencies = PeakApplicationComponent.class)
-public interface BusLocationServiceComponent {
-
+@ServiceScope
+@Component(
+        dependencies = PeakApplicationComponent.class,
+        modules = BusLocationServiceModule.class
+)
+public interface BusLocationServiceComponent extends BaseServiceComponent {
     void inject(BusLocationService service);
 }

@@ -11,5 +11,5 @@ import fi.salminen.tomy.peak.app.PeakApplicationComponent;
 public interface BaseServiceComponent {
 
     @ForService
-    Context getContext();
+    Context getServiceContext();
 }

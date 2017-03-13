@@ -10,7 +10,7 @@ import dagger.Provides;
 @Module
 public class BaseActivityModule {
 
-    private Activity activity;
+    private final Activity activity;
 
     public BaseActivityModule(Activity activity) {
         this.activity = activity;

@@ -10,7 +10,7 @@ import dagger.Provides;
 @Module
 public class BaseServiceModule {
 
-    private Service service;
+    private final Service service;
 
     public BaseServiceModule(Service service) {
         this.service = service;
@@ -19,7 +19,7 @@ public class BaseServiceModule {
     @Provides
     @ServiceScope
     @ForService
-    public Context providesService() {
+    public Context providesServiceContext() {
         return service;
     }
 
