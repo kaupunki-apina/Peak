@@ -4,6 +4,8 @@ package fi.salminen.tomy.peak.network.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -40,5 +42,24 @@ public class JourneysApiModule {
                 .baseUrl(mBaseUrl)
                 .client(client)
                 .build();
+    }
+
+    @Provides
+    @JourneysApiScope
+    Object provideBusApi(Retrofit retrofit) {
+        // TODO
+        return null;
+    }
+
+    @Provides
+    @JourneysApiScope
+    Object providesStopApi(Retrofit retrofit) {
+        // TODO
+        return null;
+    }
+
+    BusPollable providesBusPollable(@Named() Object tmp) {
+        // TODO
+        return null;
     }
 }

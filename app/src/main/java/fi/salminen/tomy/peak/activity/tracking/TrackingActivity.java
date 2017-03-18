@@ -8,7 +8,7 @@ import fi.salminen.tomy.peak.R;
 import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseActivity;
 import fi.salminen.tomy.peak.inject.activity.BaseActivityModule;
-import fi.salminen.tomy.peak.service.bus.BusLocationService;
+import fi.salminen.tomy.peak.location.BusLocationService;
 
 
 public class TrackingActivity extends BaseActivity<TrackingActivityComponent> {
