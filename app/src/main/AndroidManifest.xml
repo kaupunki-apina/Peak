@@ -2,13 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fi.salminen.tomy.peak">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".app.PeakApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".app.PeakApplication">
+        android:theme="@style/AppTheme">
         <activity android:name=".activity.tracking.TrackingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +22,7 @@
         <service
             android:name=".location.BusLocationService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

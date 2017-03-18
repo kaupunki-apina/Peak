@@ -8,6 +8,6 @@ import rx.Observable;
 
 public interface BusJourneysApi {
 
-    @GET("TODO")
+    @GET("vehicle-activity?exclude-fields=monitoredVehicleJourney.onwardCalls,recordedAttTimes")
     Observable<List<Bus>> getBuses(); // TODO Endpoint urls
 }
