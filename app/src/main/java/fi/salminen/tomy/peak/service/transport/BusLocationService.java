@@ -30,22 +30,36 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSub = Observable.interval(3, TimeUnit.SECONDS) // TODO Dynamic interval
                 .map(tick -> mApi.getBuses())
-                .retry()
                 .observeOn(Schedulers.io())
                 .subscribe(new Subscriber<Observable<List<Bus>>>() {
                     @Override
                     public void onCompleted() {
-                        BusLocationService.this.stopSelf();
+                        // TODO
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        // TODO User error message.
+                        // TODO
                     }
 
                     @Override
-                    public void onNext(Observable<List<Bus>> listObservable) {
-                        // TODO Save locally.
+                    public void onNext(Observable<List<Bus>> call) {
+                        call.subscribe(new Subscriber<List<Bus>>() {
+                            @Override
+                            public void onCompleted() {
+                                // TODO ???
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                // TODO Emit error message
+                            }
+
+                            @Override
+                            public void onNext(List<Bus> buses) {
+                                // TODO Save Locally
+                            }
+                        });
                     }
                 });
         return super.onStartCommand(intent, flags, startId);

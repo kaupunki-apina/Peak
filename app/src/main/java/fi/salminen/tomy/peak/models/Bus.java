@@ -9,10 +9,6 @@ public class Bus {
     @Expose
     String vehicleRef;
     @Expose
-    double longitude;
-    @Expose
-    double latitude;
-    @Expose
     double bearing;
     @Expose
     String journeyPatternRef;
