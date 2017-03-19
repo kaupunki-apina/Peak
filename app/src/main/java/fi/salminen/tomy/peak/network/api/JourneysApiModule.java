@@ -4,6 +4,8 @@ package fi.salminen.tomy.peak.network.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -11,11 +13,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Module
+@Module(includes = {ConfigModule.class})
 public class JourneysApiModule {
-
-    // TODO Determine what is the best way to assign this.
-    private String mBaseUrl = "http://data.itsfactory.fi/journeys/api/1/";
 
     @Provides
     Gson provideGson() {
@@ -30,17 +29,20 @@ public class JourneysApiModule {
     }
 
     @Provides
-    Retrofit provideRetrofit(Gson gson, OkHttpClient client) {
+    Retrofit provideRetrofit(
+            Gson gson,
+            OkHttpClient client,
+            @Named(ConfigModule.API_URL_BASE) String url) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(mBaseUrl)
+                .baseUrl(url)
                 .client(client)
                 .build();
     }
 
     @Provides
-    BusJourneysApi provideBusApi(Retrofit retrofit) {
-        return retrofit.create(BusJourneysApi.class);
+    JourneysApi provideJourneysApi(Retrofit retrofit) {
+        return retrofit.create(JourneysApi.class);
     }
 }

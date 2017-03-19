@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.location;
+package fi.salminen.tomy.peak.transport;
 
 import android.content.Intent;
 import android.os.IBinder;
@@ -13,7 +13,7 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.models.Bus;
-import fi.salminen.tomy.peak.network.api.BusJourneysApi;
+import fi.salminen.tomy.peak.network.api.JourneysApi;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 public class BusLocationService extends BaseService<BusLocationServiceComponent> {
 
     @Inject
-    BusJourneysApi mApi;
+    JourneysApi mApi;
 
     private Subscription mSub;
 

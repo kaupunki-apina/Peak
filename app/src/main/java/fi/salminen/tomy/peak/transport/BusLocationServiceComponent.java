@@ -1,11 +1,11 @@
-package fi.salminen.tomy.peak.location;
+package fi.salminen.tomy.peak.transport;
 
 
 import dagger.Component;
 import fi.salminen.tomy.peak.app.PeakApplicationComponent;
 import fi.salminen.tomy.peak.inject.service.BaseServiceComponent;
 import fi.salminen.tomy.peak.inject.service.ServiceScope;
-import fi.salminen.tomy.peak.network.api.BusJourneysApi;
+import fi.salminen.tomy.peak.network.api.JourneysApi;
 
 @ServiceScope
 @Component(
@@ -13,7 +13,7 @@ import fi.salminen.tomy.peak.network.api.BusJourneysApi;
         modules = BusLocationServiceModule.class
 )
 public interface BusLocationServiceComponent extends BaseServiceComponent {
-    BusJourneysApi getBusJourneysApi();
+    JourneysApi getJourneysApi();
 
     void inject(BusLocationService service);
 }

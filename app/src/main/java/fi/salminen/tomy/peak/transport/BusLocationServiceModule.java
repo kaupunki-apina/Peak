@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.location;
+package fi.salminen.tomy.peak.transport;
 
 
 import dagger.Module;
