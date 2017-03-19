@@ -25,14 +25,13 @@ public class JourneysApiModule {
 
     @Provides
     OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient.Builder().build();
+        return new OkHttpClient.Builder()
+                .addInterceptor(new StripResponse())
+                .build();
     }
 
     @Provides
-    Retrofit provideRetrofit(
-            Gson gson,
-            OkHttpClient client,
-            @Named(ConfigModule.API_URL_BASE) String url) {
+    Retrofit provideRetrofit(Gson gson, OkHttpClient client, @Named(ConfigModule.API_URL_BASE) String url) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
