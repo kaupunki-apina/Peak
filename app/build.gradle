@@ -28,36 +28,55 @@ android {
     }
 }
 
-def dbflow_version = "4.0.0-beta5"
+
+ext {
+    dependencyVersions = [
+            androidSupportLibrary  : '25.2.0',
+            dagger2                : '2.9',
+            javaxAnnotation        : '1.0',
+            rxJava2                : '2.0.1',
+            rxAndroid              : '2.0.1',
+            dbflow                 : '4.0.0-beta5',
+            retrofit2              : '2.2.0',
+            retrofit2RxJava2Adapter: '2.2.0',
+            retrofit2GsonConverter : '2.2.0',
+            gson                   : '2.7',
+            junit                  : '4.12',
+            espresso               : '2.2.2'
+    ]
+}
 
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$dependencyVersions.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
+    // Android support
+    compile "com.android.support:appcompat-v7:$dependencyVersions.androidSupportLibrary"
 
     // Dagger2
-    compile "com.google.dagger:dagger:2.9"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    provided 'javax.annotation:jsr250-api:1.0'
+    compile "com.google.dagger:dagger:$dependencyVersions.dagger2"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dependencyVersions.dagger2"
+    provided "javax.annotation:jsr250-api:$dependencyVersions.javaxAnnotation"
 
     // RxJava
-    compile 'io.reactivex:rxandroid:1.2.0'
-    compile 'io.reactivex:rxjava:1.1.4'
+    compile "io.reactivex.rxjava2:rxandroid:$dependencyVersions.rxAndroid"
+    compile "io.reactivex.rxjava2:rxjava:$dependencyVersions.rxJava2"
 
     // Gson
-    compile 'com.google.code.gson:gson:2.7'
+    compile "com.google.code.gson:gson:$dependencyVersions.gson"
 
     // Retrofit 2
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    compile "com.squareup.retrofit2:retrofit:$dependencyVersions.retrofit2"
+    compile "com.squareup.retrofit2:converter-gson:$dependencyVersions.retrofit2GsonConverter"
+    compile "com.squareup.retrofit2:adapter-rxjava:$dependencyVersions.retrofit2RxJava2Adapter"
 
     // DBFlow
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:$dependencyVersions.dbflow"
+    compile "com.github.Raizlabs.DBFlow:dbflow:$dependencyVersions.dbflow"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dependencyVersions.dbflow"
+
+    // Junit
+    testCompile "junit:junit:$dependencyVersions.junit"
 }
