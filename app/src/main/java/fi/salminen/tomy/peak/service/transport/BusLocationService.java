@@ -14,8 +14,8 @@ import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.models.Bus;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
+import fi.salminen.tomy.peak.util.SubscriberAdapter;
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 
@@ -23,52 +23,34 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
 
     @Inject
     JourneysApi mApi;
-
-    private Subscription mSub;
+    private Subscription mSubscription;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mSub = Observable.interval(3, TimeUnit.SECONDS) // TODO Dynamic interval
-                .map(tick -> mApi.getBuses())
+        mSubscription = Observable.interval(3, TimeUnit.SECONDS) // TODO Dynamic interval
+                .flatMap(tick -> mApi.getBuses())
+                .doOnError(throwable -> emitError(throwable))
+                .retry()
                 .observeOn(Schedulers.io())
-                .subscribe(new Subscriber<Observable<List<Bus>>>() {
+                .subscribe(new SubscriberAdapter<List<Bus>>() {
                     @Override
-                    public void onCompleted() {
+                    public void onNext(List<Bus> buses) {
                         // TODO
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        // TODO
-                    }
-
-                    @Override
-                    public void onNext(Observable<List<Bus>> call) {
-                        call.subscribe(new Subscriber<List<Bus>>() {
-                            @Override
-                            public void onCompleted() {
-                                // TODO ???
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                // TODO Emit error message
-                            }
-
-                            @Override
-                            public void onNext(List<Bus> buses) {
-                                // TODO Save Locally
-                            }
-                        });
+                        // Save locally
                     }
                 });
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void emitError(Throwable throwable) {
+        // TODO
     }
 
     public IBinder onBind(Intent intent) {
         // Started service, cannot be bound.
         return null;
     }
+
 
     @NonNull
     @Override
@@ -81,7 +63,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
 
     @Override
     public void onDestroy() {
-        if (!mSub.isUnsubscribed()) mSub.unsubscribe();
+        if (!mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         super.onDestroy();
     }
 
