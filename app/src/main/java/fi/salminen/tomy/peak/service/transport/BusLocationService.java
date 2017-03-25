@@ -45,7 +45,6 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
 
     private void onNext(List<Bus> buses) {
         mRetry.reset();
-        
         // TODO
     }
 
