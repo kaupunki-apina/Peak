@@ -24,6 +24,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     JourneysApi mApi;
     private Subscription mSubscription;
     private DelayedRetry mRetry = new DelayedRetry();
+
     public static final int DELAY = 3; // TODO value from prefs
 
     @Override
@@ -31,10 +32,9 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
         mSubscription = mApi.getBuses()
                 .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
                 .doOnError(this::onError)
-                .doOnNext(this::onNext)
                 .retryWhen(mRetry)
                 .observeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(this::onNext);
         
         return super.onStartCommand(intent, flags, startId);
     }
@@ -45,6 +45,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
 
     private void onNext(List<Bus> buses) {
         mRetry.reset();
+        
         // TODO
     }
 
