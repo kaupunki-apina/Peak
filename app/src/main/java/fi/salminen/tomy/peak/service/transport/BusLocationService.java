@@ -14,7 +14,7 @@ import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.models.Bus;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
-import fi.salminen.tomy.peak.util.SubscriberAdapter;
+import fi.salminen.tomy.peak.util.DelayedRetry;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 
@@ -23,27 +23,28 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     @Inject
     JourneysApi mApi;
     private Subscription mSubscription;
-
+    private DelayedRetry mRetry = new DelayedRetry();
     public static final int DELAY = 3; // TODO value from prefs
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSubscription = mApi.getBuses()
                 .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
-                .doOnError(throwable -> emitError(throwable))
-                .retry()
+                .doOnError(this::onError)
+                .doOnNext(this::onNext)
+                .retryWhen(mRetry)
                 .observeOn(Schedulers.io())
-                .subscribe(new SubscriberAdapter<List<Bus>>() {
-                    @Override
-                    public void onNext(List<Bus> buses) {
-                        // TODO
-                        // Save locally
-                    }
-                });
+                .subscribe();
+        
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void emitError(Throwable throwable) {
+    private void onError(Throwable throwable) {
+        // TODO
+    }
+
+    private void onNext(List<Bus> buses) {
+        mRetry.reset();
         // TODO
     }
 
