@@ -15,7 +15,6 @@ import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.models.Bus;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
 import fi.salminen.tomy.peak.util.SubscriberAdapter;
-import rx.Observable;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 
@@ -25,10 +24,12 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     JourneysApi mApi;
     private Subscription mSubscription;
 
+    public static final int DELAY = 3; // TODO value from prefs
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mSubscription = Observable.interval(3, TimeUnit.SECONDS) // TODO Dynamic interval
-                .flatMap(tick -> mApi.getBuses())
+        mSubscription = mApi.getBuses()
+                .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
                 .doOnError(throwable -> emitError(throwable))
                 .retry()
                 .observeOn(Schedulers.io())
