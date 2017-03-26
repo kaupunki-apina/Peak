@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.persistence.models;
+package fi.salminen.tomy.peak.persistence.bus;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -20,7 +20,7 @@ import fi.salminen.tomy.peak.persistence.PeakDatabase;
 
 
 @Table(database = PeakDatabase.class)
-public class Bus extends BaseModel {
+public class BusModel extends BaseModel {
     @Column
     @PrimaryKey
     @Expose
@@ -44,15 +44,15 @@ public class Bus extends BaseModel {
     @Expose
     Date validUntilTime;
 
-    public static class Deserializer implements JsonDeserializer<Bus> {
+    public static class Deserializer implements JsonDeserializer<BusModel> {
         // TODO Unhardcore date format.
         private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         @Override
-        public Bus deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public BusModel deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject monitoredVehicleJourney = json.getAsJsonObject().get("monitoredVehicleJourney").getAsJsonObject();
             try {
-                Bus bus = new Bus();
+                BusModel bus = new BusModel();
                 bus.bearing = monitoredVehicleJourney.get("bearing").getAsDouble();
                 bus.validUntilTime = formatter.parse(json.getAsJsonObject().get("validUntilTime").getAsString());
                 bus.vehicleRef = monitoredVehicleJourney.get("vehicleRef").getAsString();

@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import fi.salminen.tomy.peak.persistence.models.Bus;
+import fi.salminen.tomy.peak.persistence.bus.BusModel;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -20,7 +20,7 @@ public class JourneysApiModule {
     @Provides
     Gson provideGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(Bus.class, new Bus.Deserializer())
+                .registerTypeAdapter(BusModel.class, new BusModel.Deserializer())
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
     }

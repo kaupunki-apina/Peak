@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 
-import org.reactivestreams.Subscription;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +13,7 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
-import fi.salminen.tomy.peak.persistence.models.Bus;
+import fi.salminen.tomy.peak.persistence.bus.BusModel;
 import fi.salminen.tomy.peak.util.DelayedRetry;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -46,7 +44,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
         // TODO
     }
 
-    private void onNext(List<Bus> buses) {
+    private void onNext(List<BusModel> buses) {
         mRetry.reset();
         // TODO
     }

@@ -10,7 +10,7 @@ public class DelayedRetry implements Function<Observable<? extends Throwable>, O
     private int mAttempts = 0;
 
     @Override
-    public Observable<?> apply(Observable<? extends Throwable> observable) throws Exception {
+    public Observable<?> apply(Observable<? extends Throwable> observable) {
         return observable.flatMap((Function<Throwable, Observable<?>>) throwable -> {
             mAttempts++;
             return Observable.timer(mAttempts * mAttempts, TimeUnit.SECONDS);
