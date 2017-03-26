@@ -22,12 +22,10 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BusLocationService extends BaseService<BusLocationServiceComponent> {
 
-    @Inject
-    JourneysApi mApi;
+    @Inject JourneysApi mApi;
+    @Inject  DBUtil mDbUtil;
     private Disposable mSubscription;
     private DelayedRetry mRetry = new DelayedRetry();
-    private DBUtil mDbUtil = new DBUtil();
-
     public static final int DELAY = 3; // TODO value from prefs
 
     @Override
