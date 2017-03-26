@@ -13,6 +13,7 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
+import fi.salminen.tomy.peak.persistence.DBUtil;
 import fi.salminen.tomy.peak.persistence.bus.BusModel;
 import fi.salminen.tomy.peak.util.DelayedRetry;
 import io.reactivex.disposables.Disposable;
@@ -25,6 +26,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     JourneysApi mApi;
     private Disposable mSubscription;
     private DelayedRetry mRetry = new DelayedRetry();
+    private DBUtil mDbUtil = new DBUtil();
 
     public static final int DELAY = 3; // TODO value from prefs
 
@@ -46,7 +48,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
 
     private void onNext(List<BusModel> buses) {
         mRetry.reset();
-        // TODO
+        mDbUtil.save(buses);
     }
 
     public IBinder onBind(Intent intent) {
