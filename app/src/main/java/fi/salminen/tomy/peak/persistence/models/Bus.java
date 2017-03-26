@@ -6,26 +6,41 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import fi.salminen.tomy.peak.persistence.PeakDatabase;
 
-public class Bus {
+
+@Table(database = PeakDatabase.class)
+public class Bus extends BaseModel {
+    @Column
+    @PrimaryKey
     @Expose
     String vehicleRef;
+    @Column
     @Expose
     double longitude;
+    @Column
     @Expose
     double latitude;
+    @Column
     @Expose
     double bearing;
+    @Column
     @Expose
     String journeyPatternRef;
+    @Column
     @Expose
     float speed;
+    @Column
     @Expose
     Date validUntilTime;
 
