@@ -3,7 +3,7 @@ package fi.salminen.tomy.peak.persistence.models.bus;
 
 import android.content.Context;
 
-import fi.salminen.tomy.peak.persistence.BaseViewModel;
+import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
 
 // TODO
 // - Location from model fit for gMaps consumption
