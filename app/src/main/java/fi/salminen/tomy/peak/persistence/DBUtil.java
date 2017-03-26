@@ -32,7 +32,7 @@ public class DBUtil {
     }
 
     private void saveModel(BaseModel model, DatabaseWrapper wrapper) {
-        // TODO Emit values
+        // TODO Emit values to subs?
         model.save();
     }
 }

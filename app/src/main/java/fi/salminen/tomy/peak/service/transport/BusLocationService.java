@@ -14,7 +14,7 @@ import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
 import fi.salminen.tomy.peak.persistence.DBUtil;
-import fi.salminen.tomy.peak.persistence.bus.BusModel;
+import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.util.DelayedRetry;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

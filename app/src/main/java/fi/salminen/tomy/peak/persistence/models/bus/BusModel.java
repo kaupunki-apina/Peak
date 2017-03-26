@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.persistence.bus;
+package fi.salminen.tomy.peak.persistence.models.bus;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
