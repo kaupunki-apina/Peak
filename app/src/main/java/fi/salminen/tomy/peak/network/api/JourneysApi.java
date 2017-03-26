@@ -2,9 +2,10 @@ package fi.salminen.tomy.peak.network.api;
 
 import java.util.List;
 
-import fi.salminen.tomy.peak.models.Bus;
+import fi.salminen.tomy.peak.persistence.models.Bus;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
-import rx.Observable;
+
 
 public interface JourneysApi {
 

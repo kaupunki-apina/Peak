@@ -70,7 +70,7 @@ dependencies {
     // Retrofit 2
     compile "com.squareup.retrofit2:retrofit:$dependencyVersions.retrofit2"
     compile "com.squareup.retrofit2:converter-gson:$dependencyVersions.retrofit2GsonConverter"
-    compile "com.squareup.retrofit2:adapter-rxjava:$dependencyVersions.retrofit2RxJava2Adapter"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$dependencyVersions.retrofit2RxJava2Adapter"
 
     // DBFlow
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$dependencyVersions.dbflow"

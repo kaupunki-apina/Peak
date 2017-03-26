@@ -8,10 +8,10 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import fi.salminen.tomy.peak.models.Bus;
+import fi.salminen.tomy.peak.persistence.models.Bus;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module(includes = {ConfigModule.class})
@@ -36,7 +36,7 @@ public class JourneysApiModule {
     Retrofit provideRetrofit(Gson gson, OkHttpClient client, @Named(ConfigModule.API_URL_BASE) String url) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(url)
                 .client(client)
                 .build();
