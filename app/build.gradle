@@ -42,7 +42,8 @@ ext {
             retrofit2GsonConverter : '2.2.0',
             gson                   : '2.7',
             junit                  : '4.12',
-            espresso               : '2.2.2'
+            espresso               : '2.2.2',
+            gmaps                  : '10.2.0'
     ]
 }
 
@@ -79,4 +80,7 @@ dependencies {
 
     // Junit
     testCompile "junit:junit:$dependencyVersions.junit"
+
+    // Google maps
+    compile "com.google.android.gms:play-services-maps:$dependencyVersions.gmaps"
 }
