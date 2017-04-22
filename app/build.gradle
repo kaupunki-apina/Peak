@@ -55,6 +55,7 @@ dependencies {
     })
     // Android support
     compile "com.android.support:appcompat-v7:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:support-v4:$dependencyVersions.androidSupportLibrary"
 
     // Dagger2
     compile "com.google.dagger:dagger:$dependencyVersions.dagger2"
