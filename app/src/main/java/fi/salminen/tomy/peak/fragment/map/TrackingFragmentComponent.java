@@ -6,8 +6,8 @@ import fi.salminen.tomy.peak.inject.fragment.FragmentScope;
 
 
 @FragmentScope
-@Component(dependencies = PeakApplicationComponent.class, modules = MapFragmentModule.class)
-interface MapFragmentComponent {
+@Component(dependencies = PeakApplicationComponent.class, modules = TrackingFragmentModule.class)
+interface TrackingFragmentComponent {
 
-    void inject(MapFragment fragment);
+    void inject(TrackingFragment fragment);
 }

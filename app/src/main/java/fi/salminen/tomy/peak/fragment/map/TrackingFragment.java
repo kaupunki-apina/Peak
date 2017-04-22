@@ -20,14 +20,14 @@ import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 
 
-public class MapFragment extends BaseFragment<MapFragmentComponent> implements OnMapReadyCallback {
+public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
 
 
     @BindView(R.id.mapView)
     MapView mMapView;
     private Unbinder mUnbinder;
 
-    public MapFragment() {
+    public TrackingFragment() {
         // Required empty public constructor
     }
 
@@ -44,8 +44,8 @@ public class MapFragment extends BaseFragment<MapFragmentComponent> implements O
 
     @NonNull
     @Override
-    protected MapFragmentComponent createComponent() {
-        return DaggerMapFragmentComponent.builder()
+    protected TrackingFragmentComponent createComponent() {
+        return DaggerTrackingFragmentComponent.builder()
                 .baseFragmentModule(new BaseFragmentModule())
                 .peakApplicationComponent(PeakApplication.getApplication(getActivity()).component())
                 .build();
