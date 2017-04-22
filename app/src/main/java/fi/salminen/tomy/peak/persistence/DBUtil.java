@@ -9,30 +9,36 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+
 
 public class DBUtil {
+
+    // TODO Attempt to change Subjects into Observables
+    private PublishSubject<List<? extends BaseModel>> mSaveSubject = PublishSubject.create();
+    private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
 
     public void save(List<? extends BaseModel> models) {
         FlowManager.getDatabase(PeakDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(this::saveModel)
                         .addAll(models)
                         .build())
-                .error(this::onError)
-                .success(this::onSuccess)
+                .error((Transaction transaction, Throwable error) -> mErrorSubject.onError(error))
+                .success((Transaction transaction) -> mSaveSubject.onNext(models))
                 .build()
                 .execute();
     }
 
-    private void onSuccess(Transaction transaction) {
-        // TODO
-    }
-
-    private void onError(Transaction transaction, Throwable error) {
-        // TODO
-    }
-
     private void saveModel(BaseModel model, DatabaseWrapper wrapper) {
-        // TODO Emit values to subs?
         model.save();
+    }
+
+    public Observable<Throwable> getErrorObservable() {
+        return (Observable) mErrorSubject;
+    }
+
+    public Observable<List<? extends BaseModel>> getOnSaveObservable() {
+        return (Observable) mSaveSubject;
     }
 }

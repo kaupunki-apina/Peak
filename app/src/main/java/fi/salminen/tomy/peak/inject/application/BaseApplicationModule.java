@@ -22,18 +22,19 @@ public class BaseApplicationModule {
     @Provides
     @Singleton
     @ForApplication
-    public Context provideApplicationContext() {
+    Context provideApplicationContext() {
         return application.getApplicationContext();
     }
 
     @Provides
     @Singleton
-    public Application provideApplication() {
+    Application provideApplication() {
         return application;
     }
 
     @Provides
     @Singleton
-    public DBUtil provideDBUtil() { return new DBUtil();}
-
+    DBUtil provideDBUtil() {
+        return new DBUtil();
+    }
 }

@@ -16,36 +16,38 @@ import fi.salminen.tomy.peak.network.api.JourneysApi;
 import fi.salminen.tomy.peak.persistence.DBUtil;
 import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.util.DelayedRetry;
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 
 public class BusLocationService extends BaseService<BusLocationServiceComponent> {
 
-    @Inject JourneysApi mApi;
-    @Inject  DBUtil mDbUtil;
+    @Inject
+    JourneysApi mApi;
+    @Inject
+    DBUtil mDbUtil;
     private Disposable mSubscription;
     private DelayedRetry mRetry = new DelayedRetry();
     public static final int DELAY = 3; // TODO value from prefs
+    private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSubscription = mApi.getBuses()
                 .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
-                .doOnError(this::onError)
+                .doOnError(mErrorSubject::onNext)
                 .retryWhen(mRetry)
                 .observeOn(Schedulers.io())
                 .subscribe(this::onNext);
-        
+
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void onError(Throwable throwable) {
-        // TODO
-    }
 
     private void onNext(List<BusModel> buses) {
-        mRetry.reset();
+        mRetry.reset(); // Reset escalation counter
         mDbUtil.save(buses);
     }
 
@@ -53,7 +55,6 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
         // Started service, cannot be bound.
         return null;
     }
-
 
     @NonNull
     @Override
@@ -75,4 +76,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
         component().inject(this);
     }
 
+    public Observable<Throwable> getErrorObservable() {
+        return (Observable) mErrorSubject;
+    }
 }
