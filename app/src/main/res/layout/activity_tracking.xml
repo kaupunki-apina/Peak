@@ -7,9 +7,9 @@
     tools:context="fi.salminen.tomy.peak.activity.tracking.TrackingActivity">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/mapFragment"
         android:name="fi.salminen.tomy.peak.fragment.map.TrackingFragment"
-        android:id="@+id/mapFragment" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -1,8 +1,11 @@
 package fi.salminen.tomy.peak.fragment.map;
 
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.MapStyleOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,13 +26,21 @@ import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
 
-
-    @BindView(R.id.mapView)
-    MapView mMapView;
+    @BindView(R.id.mapView) MapView mMapView;
+    private GoogleMap mMap;
     private Unbinder mUnbinder;
+    private String mMapStyleJson;
 
     public TrackingFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+        TypedArray mAttrs = context.obtainStyledAttributes(attrs,R.styleable.TrackingFragment);
+        mMapStyleJson = mAttrs.getString(R.styleable.TrackingFragment_map_style);
+        mAttrs.recycle();
     }
 
     @Override
@@ -64,6 +76,13 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.mMap = googleMap;
+        styleMap();
+    }
+
+    private void styleMap() {
+        // TODO validate string with Gson
+        if (mMapStyleJson != null) mMap.setMapStyle(new MapStyleOptions(mMapStyleJson));
 
     }
 }
