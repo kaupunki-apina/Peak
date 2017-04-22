@@ -43,7 +43,8 @@ ext {
             gson                   : '2.7',
             junit                  : '4.12',
             espresso               : '2.2.2',
-            gmaps                  : '10.2.0'
+            gmaps                  : '10.2.0',
+            butterknife            : '8.4.0'
     ]
 }
 
@@ -84,4 +85,8 @@ dependencies {
 
     // Google maps
     compile "com.google.android.gms:play-services-maps:$dependencyVersions.gmaps"
+
+    // Butter Knife
+    compile "com.jakewharton:butterknife:$dependencyVersions.butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$dependencyVersions.butterknife"
 }
