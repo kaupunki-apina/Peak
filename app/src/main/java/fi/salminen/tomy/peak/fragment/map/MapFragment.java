@@ -7,24 +7,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import fi.salminen.tomy.peak.R;
 import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 
 
-public class MapFragment extends BaseFragment<MapFragmentComponent> {
+public class MapFragment extends BaseFragment<MapFragmentComponent> implements OnMapReadyCallback {
 
+
+    @BindView(R.id.mapView)
+    MapView mMapView;
+    private Unbinder mUnbinder;
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        View layout = inflater.inflate(R.layout.fragment_map, container, false);
+        mUnbinder = ButterKnife.bind(this, layout);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume(); // To display map instantly
+        mMapView.getMapAsync(this);
+        return layout;
     }
+
 
     @NonNull
     @Override
@@ -36,7 +52,18 @@ public class MapFragment extends BaseFragment<MapFragmentComponent> {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
+    }
+
+    @Override
     public void inject() {
         component().inject(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
