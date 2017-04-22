@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+// RetroLambda
+apply plugin: 'me.tatarka.retrolambda'
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -10,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'URL_API_BASE', '"http://data.itsfactory.fi/journeys/api/1/"'
     }
     buildTypes {
         release {
@@ -17,13 +21,62 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
+
+
+ext {
+    dependencyVersions = [
+            androidSupportLibrary  : '25.2.0',
+            dagger2                : '2.9',
+            javaxAnnotation        : '1.0',
+            rxJava2                : '2.0.1',
+            rxAndroid              : '2.0.1',
+            dbflow                 : '4.0.0-beta5',
+            retrofit2              : '2.2.0',
+            retrofit2RxJava2Adapter: '2.2.0',
+            retrofit2GsonConverter : '2.2.0',
+            gson                   : '2.7',
+            junit                  : '4.12',
+            espresso               : '2.2.2'
+    ]
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$dependencyVersions.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
+    // Android support
+    compile "com.android.support:appcompat-v7:$dependencyVersions.androidSupportLibrary"
+
+    // Dagger2
+    compile "com.google.dagger:dagger:$dependencyVersions.dagger2"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dependencyVersions.dagger2"
+    provided "javax.annotation:jsr250-api:$dependencyVersions.javaxAnnotation"
+
+    // RxJava
+    compile "io.reactivex.rxjava2:rxandroid:$dependencyVersions.rxAndroid"
+    compile "io.reactivex.rxjava2:rxjava:$dependencyVersions.rxJava2"
+
+    // Gson
+    compile "com.google.code.gson:gson:$dependencyVersions.gson"
+
+    // Retrofit 2
+    compile "com.squareup.retrofit2:retrofit:$dependencyVersions.retrofit2"
+    compile "com.squareup.retrofit2:converter-gson:$dependencyVersions.retrofit2GsonConverter"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$dependencyVersions.retrofit2RxJava2Adapter"
+
+    // DBFlow
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:$dependencyVersions.dbflow"
+    compile "com.github.Raizlabs.DBFlow:dbflow:$dependencyVersions.dbflow"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dependencyVersions.dbflow"
+
+    // Junit
+    testCompile "junit:junit:$dependencyVersions.junit"
 }
