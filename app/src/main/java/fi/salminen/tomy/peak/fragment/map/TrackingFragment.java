@@ -78,12 +78,13 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-        styleMap();
+        styleMap(mMap, mMapStyleJson);
     }
 
-    private void styleMap() {
+    private void styleMap(GoogleMap googleMap, String styleJson) {
         // TODO validate string with Gson
-        if (mMapStyleJson != null) mMap.setMapStyle(new MapStyleOptions(mMapStyleJson));
-
+        if (styleJson != null && googleMap != null) {
+            googleMap.setMapStyle(new MapStyleOptions(styleJson));
+        }
     }
 }
