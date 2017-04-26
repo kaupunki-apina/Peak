@@ -1,6 +1,8 @@
 package fi.salminen.tomy.peak.persistence;
 
 
+import android.support.annotation.NonNull;
+
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
@@ -19,7 +21,8 @@ public class DBUtil {
     private PublishSubject<List<? extends BaseModel>> mSaveSubject = PublishSubject.create();
     private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
 
-    public void save(List<? extends BaseModel> models) {
+    public void save(@NonNull List<? extends BaseModel> models) {
+        // Note: Switch to using FastStoreModelTransaction if performance becomes an issue.
         FlowManager.getDatabase(PeakDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(this::saveModel)
                         .addAll(models)
