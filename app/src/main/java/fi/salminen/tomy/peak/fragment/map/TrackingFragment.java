@@ -26,7 +26,8 @@ import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
 
-    @BindView(R.id.mapView) MapView mMapView;
+    @BindView(R.id.mapView)
+    MapView mMapView;
     private GoogleMap mMap;
     private Unbinder mUnbinder;
     private String mMapStyleJson;
@@ -38,7 +39,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Override
     public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(context, attrs, savedInstanceState);
-        TypedArray mAttrs = context.obtainStyledAttributes(attrs,R.styleable.TrackingFragment);
+        TypedArray mAttrs = context.obtainStyledAttributes(attrs, R.styleable.TrackingFragment);
         mMapStyleJson = mAttrs.getString(R.styleable.TrackingFragment_map_style);
         mAttrs.recycle();
     }
@@ -58,7 +59,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Override
     protected TrackingFragmentComponent createComponent() {
         return DaggerTrackingFragmentComponent.builder()
-                .baseFragmentModule(new BaseFragmentModule())
+                .baseFragmentModule(new BaseFragmentModule(this))
                 .peakApplicationComponent(PeakApplication.getApplication(getActivity()).component())
                 .build();
     }
