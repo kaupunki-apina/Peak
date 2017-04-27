@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.fragment.map;
+package fi.salminen.tomy.peak.fragment.tracking;
 
 import dagger.Component;
 import fi.salminen.tomy.peak.app.PeakApplicationComponent;

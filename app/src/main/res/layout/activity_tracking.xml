@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="fi.salminen.tomy.peak.fragment.map.TrackingFragment"
+        android:name="fi.salminen.tomy.peak.fragment.tracking.TrackingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
