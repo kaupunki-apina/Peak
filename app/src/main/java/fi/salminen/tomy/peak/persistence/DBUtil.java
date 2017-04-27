@@ -21,10 +21,10 @@ public class DBUtil {
     // TODO Attempt to change Subjects into Observables
     private PublishSubject<List<? extends BaseRXModel>> mSaveSubject = PublishSubject.create();
     private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
-    private FlowContentObserver mFco = new FlowContentObserver();
+    private FlowContentObserver mFco;
 
-    public DBUtil() {
-        mFco.setNotifyAllUris(false); // Only update once a batch is saved.
+    public DBUtil(FlowContentObserver mFco) {
+        this.mFco = mFco;
     }
 
     public void save(@NonNull List<? extends BaseRXModel> models) {

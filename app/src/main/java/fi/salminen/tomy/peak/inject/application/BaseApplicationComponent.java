@@ -7,7 +7,6 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import fi.salminen.tomy.peak.persistence.DBUtil;
 import fi.salminen.tomy.peak.util.JsonValidator;
 
 
@@ -16,8 +15,6 @@ import fi.salminen.tomy.peak.util.JsonValidator;
 public interface BaseApplicationComponent {
 
     Application getApplication();
-
-    DBUtil getDBUtil();
 
     JsonValidator getJsonValidator();
 

@@ -8,7 +8,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import fi.salminen.tomy.peak.persistence.DBUtil;
 import fi.salminen.tomy.peak.util.JsonValidator;
 
 @Module
@@ -31,12 +30,6 @@ public class BaseApplicationModule {
     @Singleton
     Application provideApplication() {
         return application;
-    }
-
-    @Provides
-    @Singleton
-    DBUtil provideDBUtil() {
-        return new DBUtil();
     }
 
     @Provides
