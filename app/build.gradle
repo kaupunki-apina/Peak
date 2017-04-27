@@ -31,19 +31,19 @@ android {
 
 ext {
     dependencyVersions = [
-            androidSupportLibrary  : '25.2.0',
+            androidSupportLibrary  : '25.3.1',
             dagger2                : '2.9',
             javaxAnnotation        : '1.0',
             rxJava2                : '2.0.1',
             rxAndroid              : '2.0.1',
-            dbflow                 : '4.0.0-beta5',
+            dbflow                 : '4.0.0-beta7',
             retrofit2              : '2.2.0',
             retrofit2RxJava2Adapter: '2.2.0',
             retrofit2GsonConverter : '2.2.0',
             gson                   : '2.7',
             junit                  : '4.12',
             espresso               : '2.2.2',
-            gmaps                  : '10.2.0',
+            gmaps                  : '10.2.1',
             butterknife            : '8.4.0'
     ]
 }
@@ -79,6 +79,8 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$dependencyVersions.dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow:$dependencyVersions.dbflow"
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dependencyVersions.dbflow"
+    compile "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dependencyVersions.dbflow"
+
 
     // Junit
     testCompile "junit:junit:$dependencyVersions.junit"
