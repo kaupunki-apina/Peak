@@ -15,6 +15,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -22,12 +24,18 @@ import fi.salminen.tomy.peak.R;
 import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
+import fi.salminen.tomy.peak.inject.fragment.ForFragment;
 
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
 
     @BindView(R.id.mapView)
     MapView mMapView;
+
+    @Inject
+    @ForFragment
+    Context context;
+
     private GoogleMap mMap;
     private Unbinder mUnbinder;
     private String mMapStyleJson;
