@@ -25,6 +25,7 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
+import fi.salminen.tomy.peak.util.JsonValidator;
 
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
@@ -35,6 +36,9 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Inject
     @ForFragment
     Context context;
+
+    @Inject
+    JsonValidator validator;
 
     private GoogleMap mMap;
     private Unbinder mUnbinder;
@@ -87,11 +91,12 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
         styleMap(mMap, mMapStyleJson);
+
     }
 
     private void styleMap(GoogleMap googleMap, String styleJson) {
         // TODO validate string with Gson
-        if (styleJson != null && googleMap != null) {
+        if (validator.isValid(styleJson) && googleMap != null) {
             googleMap.setMapStyle(new MapStyleOptions(styleJson));
         }
     }
