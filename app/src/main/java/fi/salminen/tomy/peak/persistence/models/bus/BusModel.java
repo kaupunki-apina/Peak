@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -20,7 +20,7 @@ import fi.salminen.tomy.peak.persistence.PeakDatabase;
 
 
 @Table(database = PeakDatabase.class)
-public class BusModel extends BaseModel {
+public class BusModel extends BaseRXModel {
     @Column
     @PrimaryKey
     @Expose
