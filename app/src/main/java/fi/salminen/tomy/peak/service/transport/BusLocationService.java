@@ -5,7 +5,6 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -15,7 +14,6 @@ import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
 import fi.salminen.tomy.peak.persistence.DBUtil;
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.util.DelayedRetry;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -45,15 +43,12 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
                 })
                 .retryWhen(mRetry)
                 .subscribeOn(Schedulers.io())
-                .subscribe(this::onNext);
+                .subscribe(models -> {
+                    mRetry.reset(); // Reset escalation counter
+                    mDbUtil.save(models);
+                });
 
         return super.onStartCommand(intent, flags, startId);
-    }
-
-
-    private void onNext(List<BusModel> buses) {
-        mRetry.reset(); // Reset escalation counter
-        mDbUtil.save(buses);
     }
 
     public IBinder onBind(Intent intent) {
