@@ -3,6 +3,7 @@ package fi.salminen.tomy.peak.service.transport;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,16 +31,20 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     DBUtil mDbUtil;
     private Disposable mSubscription;
     private DelayedRetry mRetry = new DelayedRetry();
-    public static final int DELAY = 3; // TODO value from prefs
     private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
+    public static final int DELAY = 3; // TODO value from prefs
+    private static final String TAG = BusLocationService.class.getName();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSubscription = mApi.getBuses()
                 .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
-                .doOnError(mErrorSubject::onNext)
+                .doOnError(err -> {
+                    Log.d(TAG, "Failed to connetc to API: " + err.getMessage());
+                    mErrorSubject.onNext(err);
+                })
                 .retryWhen(mRetry)
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .subscribe(this::onNext);
 
         return super.onStartCommand(intent, flags, startId);

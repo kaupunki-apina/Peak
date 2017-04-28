@@ -91,11 +91,9 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
         styleMap(mMap, mMapStyleJson);
-
     }
 
     private void styleMap(GoogleMap googleMap, String styleJson) {
-        // TODO validate string with Gson
         if (validator.isValid(styleJson) && googleMap != null) {
             googleMap.setMapStyle(new MapStyleOptions(styleJson));
         }

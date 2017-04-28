@@ -2,6 +2,7 @@ package fi.salminen.tomy.peak.persistence;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
@@ -22,6 +23,7 @@ public class DBUtil {
     private PublishSubject<List<? extends BaseRXModel>> mSaveSubject = PublishSubject.create();
     private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
     private FlowContentObserver mFco;
+    private static final String TAG = DBUtil.class.getName();
 
     public DBUtil(FlowContentObserver mFco) {
         this.mFco = mFco;
@@ -35,12 +37,13 @@ public class DBUtil {
                     .addAll(models)
                     .build())
                 .error((Transaction transaction, Throwable error) -> {
-                    mErrorSubject.onError(error);
+                    Log.d(TAG, "Failed to save API response locally:" + error.getMessage());
                     mFco.endTransactionAndNotify();
+                    mErrorSubject.onError(error);
                 })
                 .success((Transaction transaction) -> {
-                    mSaveSubject.onNext(models);
                     mFco.endTransactionAndNotify();
+                    mSaveSubject.onNext(models);
                 })
                 .build()
                 .execute();
