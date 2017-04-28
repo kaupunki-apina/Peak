@@ -38,7 +38,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
         mSubscription = mApi.getBuses()
                 .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
                 .doOnError(err -> {
-                    Log.d(TAG, "Failed to connetc to API: " + err.getMessage());
+                    Log.d(TAG, "Failed to connect to API: " + err.getMessage());
                     mErrorSubject.onNext(err);
                 })
                 .retryWhen(mRetry)

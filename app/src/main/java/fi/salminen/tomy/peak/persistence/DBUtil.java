@@ -37,7 +37,7 @@ public class DBUtil {
                     .addAll(models)
                     .build())
                 .error((Transaction transaction, Throwable error) -> {
-                    Log.d(TAG, "Failed to save API response locally:" + error.getMessage());
+                    Log.d(TAG, "Saving models erred:" + error.getMessage());
                     mFco.endTransactionAndNotify();
                     mErrorSubject.onError(error);
                 })
