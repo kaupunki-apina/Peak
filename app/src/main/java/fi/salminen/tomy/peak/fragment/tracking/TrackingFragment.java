@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,7 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
+import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.util.JsonValidator;
 
 
@@ -39,6 +41,9 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @Inject
     JsonValidator validator;
+
+    @Inject
+    FlowContentObserver fco;
 
     private GoogleMap mMap;
     private Unbinder mUnbinder;
@@ -80,6 +85,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        fco.unregisterForContentChanges(context);
     }
 
     @Override
@@ -91,6 +97,10 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
         styleMap(mMap, mMapStyleJson);
+        fco.registerForContentChanges(context, BusModel.class);
+        fco.addOnTableChangedListener((tableChanged, action) -> {
+            // TODO Draw markers
+        });
     }
 
     private void styleMap(GoogleMap googleMap, String styleJson) {
