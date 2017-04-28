@@ -1,5 +1,7 @@
 package fi.salminen.tomy.peak.persistence.models.bus;
 
+import android.util.Log;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -45,8 +47,9 @@ public class BusModel extends BaseRXModel {
     Date validUntilTime;
 
     public static class Deserializer implements JsonDeserializer<BusModel> {
-        // TODO Unhardcore date format.
+        // TODO Unhardcoded date format.
         private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        private static final String TAG = Deserializer.class.getName();
 
         @Override
         public BusModel deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -62,7 +65,7 @@ public class BusModel extends BaseRXModel {
                 bus.speed = monitoredVehicleJourney.get("speed").getAsFloat();
                 return bus;
             } catch (ParseException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Json parsing failed: " + e.getMessage());
                 throw new JsonParseException(e.getMessage());
             }
         }
