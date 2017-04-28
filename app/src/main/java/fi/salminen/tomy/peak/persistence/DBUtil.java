@@ -25,7 +25,7 @@ public class DBUtil {
     private FlowContentObserver mFco;
     private static final String TAG = DBUtil.class.getName();
 
-    public DBUtil(FlowContentObserver mFco) {
+    DBUtil(FlowContentObserver mFco) {
         this.mFco = mFco;
     }
 
