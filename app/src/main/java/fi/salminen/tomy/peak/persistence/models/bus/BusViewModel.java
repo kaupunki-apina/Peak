@@ -2,6 +2,12 @@ package fi.salminen.tomy.peak.persistence.models.bus;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
 
@@ -10,7 +16,34 @@ import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
 // - Open dialog on click
 public class BusViewModel extends BaseViewModel<BusModel> {
 
-    public BusViewModel(BusModel model, Context context) {
-        super(model, context);
+    private GoogleMap map;
+    private Marker marker;
+
+
+    public BusViewModel(Context context, GoogleMap map) {
+        super(context);
+        this.map = map;
+    }
+
+    @Override
+    public void onBind() {
+        marker = map.addMarker(
+                new MarkerOptions()
+                    .position(latLngFromModel(model())));
+    }
+
+    @Override
+    protected void onUnbind() {
+        marker.remove();
+        marker = null;
+    }
+
+    @Override
+    protected void onRebind(@NonNull BusModel newModel) {
+        marker.setPosition(latLngFromModel(newModel));
+    }
+
+    private LatLng latLngFromModel(BusModel model) {
+        return new LatLng(model().latitude, model.longitude);
     }
 }
