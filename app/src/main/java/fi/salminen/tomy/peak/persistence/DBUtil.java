@@ -33,7 +33,7 @@ public class DBUtil {
         mFco.beginTransaction();
         // Note: Switch to using FastStoreModelTransaction if performance becomes an issue.
         FlowManager.getDatabase(PeakDatabase.class)
-                .beginTransactionAsync(new ProcessModelTransaction.Builder<BaseRXModel>(BaseRXModel::save)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<BaseRXModel>((model, wrapper) -> model.save(wrapper).subscribe())
                     .addAll(models)
                     .build())
                 .error((Transaction transaction, Throwable error) -> {
