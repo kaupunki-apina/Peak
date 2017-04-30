@@ -8,4 +8,3 @@ import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 class TrackingFragmentModule {
 
 }
-

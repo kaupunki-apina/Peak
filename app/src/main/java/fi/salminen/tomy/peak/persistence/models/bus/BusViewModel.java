@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
 
 // TODO
-// - Location from model fit for gMaps consumption
 // - Open dialog on click
 public class BusViewModel extends BaseViewModel<BusModel> {
 
@@ -26,24 +25,26 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     }
 
     @Override
-    public void onBind() {
+    public void onBindModel() {
         marker = map.addMarker(
                 new MarkerOptions()
-                    .position(latLngFromModel(model())));
+                        .position(latLngFromModel(model())));
     }
 
     @Override
-    protected void onUnbind() {
-        marker.remove();
-        marker = null;
+    protected void onUnbindModel() {
+        if (marker != null) {
+            marker.remove();
+            marker = null;
+        }
     }
 
     @Override
-    protected void onRebind(@NonNull BusModel newModel) {
+    protected void onRebindModel(@NonNull BusModel newModel) {
         marker.setPosition(latLngFromModel(newModel));
     }
 
     private LatLng latLngFromModel(BusModel model) {
-        return new LatLng(model().latitude, model.longitude);
+        return new LatLng(model.latitude, model.longitude);
     }
 }

@@ -18,20 +18,25 @@ public abstract class BaseViewModel<TModel extends BaseRXModel> {
 
     @CallSuper
     public void bind(@NonNull TModel model) {
-        isBound = true;
-        if (model == null) {
+        if (!isBound()) {
             this.mModel = model;
-            onBind();
+            onBindModel();
         } else {
-            onRebind(model);
+            onRebindModel(model);
             this.mModel = model;
         }
+
+        setBound(true);
     }
 
     public void unbind() {
-        onUnbind();
-        isBound = false;
+        onUnbindModel();
+        setBound(false);
         this.mModel = null;
+    }
+
+    private void setBound(boolean bound) {
+        this.isBound = bound;
     }
 
     public boolean isBound() {
@@ -48,14 +53,14 @@ public abstract class BaseViewModel<TModel extends BaseRXModel> {
      * Called if ViewModel is bound for the first time, or if rebinding after unbind()
      * has been called. ViewModel should prep itself for presenting.
      */
-    protected abstract void onBind();
+    protected abstract void onBindModel();
 
     /**
      * Unbinds ViewModel from a Model.
      *
      * ViewModel should release all resources.
      */
-    protected abstract void onUnbind();
+    protected abstract void onUnbindModel();
 
     /**
      * Binds ViewModel to a new Model.
@@ -66,5 +71,5 @@ public abstract class BaseViewModel<TModel extends BaseRXModel> {
      *
      * @param newModel Model to bind to
      */
-    protected abstract void onRebind(@NonNull TModel newModel);
+    protected abstract void onRebindModel(@NonNull TModel newModel);
 }

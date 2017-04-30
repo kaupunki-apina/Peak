@@ -70,5 +70,4 @@ public class BusModel extends BaseRXModel {
             }
         }
     }
-
 }

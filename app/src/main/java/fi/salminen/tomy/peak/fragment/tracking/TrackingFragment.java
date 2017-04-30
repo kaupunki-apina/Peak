@@ -26,12 +26,10 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.util.JsonValidator;
 
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
-
     @BindView(R.id.mapView)
     MapView mMapView;
 
@@ -48,6 +46,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     private GoogleMap mMap;
     private Unbinder mUnbinder;
     private String mMapStyleJson;
+    private MarkerManager mMarkerManager;
 
     public TrackingFragment() {
         // Required empty public constructor
@@ -85,7 +84,10 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-        fco.unregisterForContentChanges(context);
+
+        if (mMarkerManager != null) {
+            mMarkerManager.dispose();
+        }
     }
 
     @Override
@@ -96,11 +98,8 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
+        this.mMarkerManager = new MarkerManager(context, mMap, fco);
         styleMap(mMap, mMapStyleJson);
-        fco.registerForContentChanges(context, BusModel.class);
-        fco.addOnTableChangedListener((tableChanged, action) -> {
-            // TODO Draw markers
-        });
     }
 
     private void styleMap(GoogleMap googleMap, String styleJson) {
