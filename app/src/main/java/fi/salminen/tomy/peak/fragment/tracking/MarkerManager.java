@@ -16,6 +16,9 @@ import fi.salminen.tomy.peak.persistence.models.bus.BusModel_Table;
 import fi.salminen.tomy.peak.util.poolers.BusViewModelPooler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
+
+// TODO
+// Listen for changes in the selected lines
 public class MarkerManager {
 
     private Context context;
@@ -57,6 +60,7 @@ public class MarkerManager {
     private Where<BusModel> getBusSql() {
         return SQLite.select()
                 .from(BusModel.class)
+                // TODO Filter to selected lines only.
                 .where(BusModel_Table.validUntilTime.greaterThan(new Date()));
     }
 }
