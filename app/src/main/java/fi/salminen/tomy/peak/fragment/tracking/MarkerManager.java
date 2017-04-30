@@ -13,7 +13,7 @@ import java.util.Date;
 
 import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.persistence.models.bus.BusModel_Table;
-import fi.salminen.tomy.peak.util.poolers.BusViewModelPooler;
+import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
@@ -24,13 +24,13 @@ public class MarkerManager {
     private Context context;
     private GoogleMap map;
     private FlowContentObserver fco;
-    private BusViewModelPooler mBusPooler;
+    private BusViewModelPool mBusPool;
 
     public MarkerManager(Context context, GoogleMap map, FlowContentObserver fco) {
         this.context = context;
         this.map = map;
         this.fco = fco;
-        this.mBusPooler = new BusViewModelPooler(context, map);
+        this.mBusPool = new BusViewModelPool(context, map);
         initMarkers();
     }
 
@@ -39,7 +39,7 @@ public class MarkerManager {
                 .queryList()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .doFinally(this::observeChanges)
-                .subscribe(busModels -> mBusPooler.setData(busModels));
+                .subscribe(busModels -> mBusPool.setData(busModels));
     }
 
     private void observeChanges() {
@@ -47,12 +47,12 @@ public class MarkerManager {
         fco.addOnTableChangedListener((tableChanged, action) -> RXSQLite.rx(getBusSql())
                 .queryList()
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(busModels -> mBusPooler.setData(busModels)));
+                .subscribe(busModels -> mBusPool.setData(busModels)));
     }
 
     public void dispose() {
         fco.unregisterForContentChanges(context);
-        mBusPooler.dispose();
+        mBusPool.dispose();
         context = null;
         map = null;
     }

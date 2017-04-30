@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.util.poolers;
+package fi.salminen.tomy.peak.util.pool;
 
 
 import android.content.Context;
@@ -12,14 +12,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
 
-public abstract class ViewModelPooler<TViewModel extends BaseViewModel, TModel extends BaseRXModel> {
+public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel extends BaseRXModel> {
     private static final int DEFAULT_POOL_SIZE = 20;
     private ConcurrentLinkedQueue<TViewModel> unbound;
     private LinkedList<TViewModel> bound;
     private Context context;
 
 
-    public ViewModelPooler(@NonNull Context context) {
+    public ViewModelPool(@NonNull Context context) {
         this.context = context;
         unbound = new ConcurrentLinkedQueue<>();
         bound = new LinkedList<>();
