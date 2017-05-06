@@ -15,6 +15,7 @@ import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.persistence.models.bus.BusModel_Table;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 
 // TODO
@@ -22,39 +23,47 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class MarkerManager {
 
     private Context context;
-    private GoogleMap map;
     private FlowContentObserver fco;
     private BusViewModelPool mBusPool;
+    private boolean isFcoRegistered;
 
-    public MarkerManager(Context context, GoogleMap map, FlowContentObserver fco) {
+    public MarkerManager(Context context, FlowContentObserver fco) {
         this.context = context;
-        this.map = map;
         this.fco = fco;
-        this.mBusPool = new BusViewModelPool(context, map);
+        this.isFcoRegistered = false;
+    }
+
+    public void manage(GoogleMap map) {
+        if (mBusPool != null) mBusPool = new BusViewModelPool(context, map);
         initMarkers();
     }
 
     private void initMarkers() {
+        // Registers a flow content observer which listens for
+        // changes in BusModel table.
+        Action registerFco = () -> {
+            if (isFcoRegistered) {
+                fco.registerForContentChanges(context, BusModel.class);
+                fco.addOnTableChangedListener((tableChanged, action) -> RXSQLite.rx(getBusSql())
+                        .queryList()
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe(busModels -> mBusPool.setData(busModels)));
+            }
+
+            isFcoRegistered = true;
+        };
+
         RXSQLite.rx(getBusSql())
                 .queryList()
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .doFinally(this::observeChanges)
+                .doFinally(registerFco)
                 .subscribe(busModels -> mBusPool.setData(busModels));
-    }
-
-    private void observeChanges() {
-        fco.registerForContentChanges(context, BusModel.class);
-        fco.addOnTableChangedListener((tableChanged, action) -> RXSQLite.rx(getBusSql())
-                .queryList()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(busModels -> mBusPool.setData(busModels)));
     }
 
     public void dispose() {
         fco.unregisterForContentChanges(context);
         mBusPool.dispose();
         context = null;
-        map = null;
     }
 
     private Where<BusModel> getBusSql() {

@@ -17,7 +17,6 @@ public class BusViewModelPool extends ViewModelPool<BusViewModel, BusModel> {
         this.map = map;
     }
 
-
     @Override
     BusViewModel newViewModel(Context context) {
         return new BusViewModel(context, map);

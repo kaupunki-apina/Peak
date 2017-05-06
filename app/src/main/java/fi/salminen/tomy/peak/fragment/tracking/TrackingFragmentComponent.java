@@ -10,5 +10,7 @@ import fi.salminen.tomy.peak.inject.fragment.FragmentScope;
 @Component(dependencies = PeakApplicationComponent.class, modules = TrackingFragmentModule.class)
 interface TrackingFragmentComponent extends BaseFragmentComponent {
 
+    MarkerManager getMarkerManager();
+
     void inject(TrackingFragment fragment);
 }

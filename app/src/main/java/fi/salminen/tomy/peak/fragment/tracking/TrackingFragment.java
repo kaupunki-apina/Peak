@@ -43,10 +43,12 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Inject
     FlowContentObserver fco;
 
+    @Inject
+    MarkerManager mMarkerManager;
+
     private GoogleMap mMap;
     private Unbinder mUnbinder;
     private String mMapStyleJson;
-    private MarkerManager mMarkerManager;
 
     public TrackingFragment() {
         // Required empty public constructor
@@ -84,10 +86,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-
-        if (mMarkerManager != null) {
-            mMarkerManager.dispose();
-        }
+        mMarkerManager.dispose();
     }
 
     @Override
@@ -98,7 +97,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-        this.mMarkerManager = new MarkerManager(context, mMap, fco);
+        mMarkerManager.manage(mMap);
         styleMap(mMap, mMapStyleJson);
     }
 
