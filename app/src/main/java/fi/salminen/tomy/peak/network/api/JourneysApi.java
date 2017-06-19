@@ -2,7 +2,7 @@ package fi.salminen.tomy.peak.network.api;
 
 import java.util.List;
 
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
+import fi.salminen.tomy.peak.persistence.models.BusModel;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 

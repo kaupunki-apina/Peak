@@ -1,7 +1,7 @@
 package fi.salminen.tomy.peak.inject.activity;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import dagger.Module;
 import dagger.Provides;
@@ -10,9 +10,9 @@ import dagger.Provides;
 @Module
 public class BaseActivityModule {
 
-    private final Activity activity;
+    private final AppCompatActivity activity;
 
-    public BaseActivityModule(Activity activity) {
+    public BaseActivityModule(AppCompatActivity activity) {
         this.activity = activity;
     }
 
@@ -25,7 +25,7 @@ public class BaseActivityModule {
 
     @Provides
     @ActivityScope
-    Activity provideActivity() {
+    AppCompatActivity provideActivity() {
         return activity;
     }
 }

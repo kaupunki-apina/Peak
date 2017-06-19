@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
+import fi.salminen.tomy.peak.persistence.models.BusModel;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

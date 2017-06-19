@@ -3,8 +3,8 @@ package fi.salminen.tomy.peak.service.transport;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -14,7 +14,6 @@ import fi.salminen.tomy.peak.core.BaseService;
 import fi.salminen.tomy.peak.inject.service.BaseServiceModule;
 import fi.salminen.tomy.peak.network.api.JourneysApi;
 import fi.salminen.tomy.peak.persistence.DBUtil;
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
 import fi.salminen.tomy.peak.util.DelayedRetry;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -30,25 +29,26 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     DBUtil mDbUtil;
     private Disposable mSubscription;
     private DelayedRetry mRetry = new DelayedRetry();
-    public static final int DELAY = 3; // TODO value from prefs
     private PublishSubject<Throwable> mErrorSubject = PublishSubject.create();
+    public static final int DELAY = 3; // TODO value from prefs
+    private static final String TAG = BusLocationService.class.getName();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSubscription = mApi.getBuses()
                 .repeatWhen(o -> o.delay(DELAY, TimeUnit.SECONDS))
-                .doOnError(mErrorSubject::onNext)
+                .doOnError(err -> {
+                    Log.d(TAG, "Failed to connect to API: " + err.getMessage());
+                    mErrorSubject.onNext(err);
+                })
                 .retryWhen(mRetry)
-                .observeOn(Schedulers.io())
-                .subscribe(this::onNext);
+                .subscribeOn(Schedulers.io())
+                .subscribe(models -> {
+                    mRetry.reset(); // Reset escalation counter
+                    mDbUtil.save(models);
+                });
 
         return super.onStartCommand(intent, flags, startId);
-    }
-
-
-    private void onNext(List<BusModel> buses) {
-        mRetry.reset(); // Reset escalation counter
-        mDbUtil.save(buses);
     }
 
     public IBinder onBind(Intent intent) {

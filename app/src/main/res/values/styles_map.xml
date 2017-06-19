@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_style" translatable="false">@string/map_style_night</string>
+
+    <!-- Petrol blue light grey theme -->
+    <string name="map_style_night" translatable="false">
+        [{\"stylers\":[{\"hue\":\"#00aaff\"},{\"saturation\":-100},{\"lightness\":12},{\"gamma\":2.15}]},{\"featureType\":\"administrative\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#4b4b4b\"}]},{\"featureType\":\"administrative\",\"elementType\":\"labels.text.stroke\",\"stylers\":[{\"color\":\"#f9f9f9\"},{\"visibility\":\"on\"},{\"weight\":1.5}]},{\"featureType\":\"landscape\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"landscape.man_made\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#d8d8d8\"},{\"visibility\":\"on\"}]},{\"featureType\":\"landscape.natural\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#e3e3e3\"}]},{\"featureType\":\"poi\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"road\",\"elementType\":\"geometry\",\"stylers\":[{\"lightness\":57}]},{\"featureType\":\"road\",\"elementType\":\"labels.icon\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"road\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#575757\"},{\"lightness\":25},{\"visibility\":\"on\"}]},{\"featureType\":\"transit\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#f5f5f5\"}]},{\"featureType\":\"transit\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"water\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#4f4e52\"}]},{\"featureType\":\"water\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"off\"}]}]
+    </string>
+</resources>

@@ -1,7 +1,7 @@
 package fi.salminen.tomy.peak.inject.activity;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import dagger.Component;
 import fi.salminen.tomy.peak.app.PeakApplicationComponent;
@@ -11,7 +11,7 @@ import fi.salminen.tomy.peak.app.PeakApplicationComponent;
 @Component(dependencies = PeakApplicationComponent.class, modules = BaseActivityModule.class)
 public interface BaseActivityComponent {
 
-    Activity getActivity();
+    AppCompatActivity getActivity();
 
     @ForActivity
     Context getActivityContext();
