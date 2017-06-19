@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.persistence.models.bus;
+package fi.salminen.tomy.peak.persistence.models;
 
 import android.util.Log;
 
@@ -26,25 +26,25 @@ public class BusModel extends BaseRXModel {
     @Column
     @PrimaryKey
     @Expose
-    String vehicleRef;
+    public String vehicleRef;
     @Column
     @Expose
-    double longitude;
+    public double longitude;
     @Column
     @Expose
-    double latitude;
+    public double latitude;
     @Column
     @Expose
-    double bearing;
+    public double bearing;
     @Column
     @Expose
-    String journeyPatternRef;
+    public String journeyPatternRef;
     @Column
     @Expose
-    float speed;
+    public float speed;
     @Column
     @Expose
-    Date validUntilTime;
+    public Date validUntilTime;
 
     public static class Deserializer implements JsonDeserializer<BusModel> {
         // TODO Unhardcoded date format.

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
+import fi.salminen.tomy.peak.viewmodels.BaseViewModel;
 
 public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel extends BaseRXModel> {
     private ConcurrentLinkedQueue<TViewModel> unbound;

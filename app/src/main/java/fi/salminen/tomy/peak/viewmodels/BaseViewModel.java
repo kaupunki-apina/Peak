@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.persistence.models;
+package fi.salminen.tomy.peak.viewmodels;
 
 
 import android.content.Context;

@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.persistence.models.bus;
+package fi.salminen.tomy.peak.viewmodels;
 
 
 import android.content.Context;
@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import fi.salminen.tomy.peak.persistence.models.BaseViewModel;
+import fi.salminen.tomy.peak.persistence.models.BusModel;
 
 // TODO
 // - Open dialog on click

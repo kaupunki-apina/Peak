@@ -11,8 +11,8 @@ import com.raizlabs.android.dbflow.sql.language.Where;
 
 import java.util.Date;
 
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel_Table;
+import fi.salminen.tomy.peak.persistence.models.BusModel;
+import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;

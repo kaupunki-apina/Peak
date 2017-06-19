@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.GoogleMap;
 
-import fi.salminen.tomy.peak.persistence.models.bus.BusModel;
-import fi.salminen.tomy.peak.persistence.models.bus.BusViewModel;
+import fi.salminen.tomy.peak.persistence.models.BusModel;
+import fi.salminen.tomy.peak.viewmodels.BusViewModel;
 
 public class BusViewModelPool extends ViewModelPool<BusViewModel, BusModel> {
     private GoogleMap map;
