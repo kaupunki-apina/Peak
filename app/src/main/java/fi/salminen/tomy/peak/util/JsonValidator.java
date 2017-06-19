@@ -4,6 +4,7 @@ package fi.salminen.tomy.peak.util;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
+
 public class JsonValidator {
 
     private JsonParser mParser;

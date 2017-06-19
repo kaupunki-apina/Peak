@@ -34,7 +34,7 @@ public class MarkerManager {
     }
 
     public void manage(GoogleMap map) {
-        if (mBusPool != null) mBusPool = new BusViewModelPool(context, map);
+        if (mBusPool == null) mBusPool = new BusViewModelPool(context, map);
         initMarkers();
     }
 
@@ -42,7 +42,7 @@ public class MarkerManager {
         // Registers a flow content observer which listens for
         // changes in BusModel table.
         Action registerFco = () -> {
-            if (isFcoRegistered) {
+            if (!isFcoRegistered) {
                 fco.registerForContentChanges(context, BusModel.class);
                 fco.addOnTableChangedListener((tableChanged, action) -> RXSQLite.rx(getBusSql())
                         .queryList()

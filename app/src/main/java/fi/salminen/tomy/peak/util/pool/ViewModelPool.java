@@ -25,12 +25,17 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
         bound = new LinkedList<>();
     }
 
+    /**
+     * Replaces existing data set with the given data set.
+     *
+     * @param models Models to rebind existing data set.
+     */
     public void setData(List<TModel> models) {
         TViewModel vm;
 
         // Recycle currently bound ViewModels
         for (int i = 0; i < models.size() && i < bound.size(); i++) {
-            replace(i, models.get(i));
+            rebind(i, models.get(i));
         }
 
         // Remove excess bound ViewModels, if the number of bound
@@ -48,12 +53,23 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
         }
     }
 
-    public void replace(int index, TModel model) {
+    /**
+     * Rebind ViewModel at index to the given model.
+     *
+     * @param index Index of the ViewModel to rebind.
+     * @param model Model to bind to.
+     */
+    private void rebind(int index, TModel model) {
         if (index < bound.size()) {
             bound.get(index).bind(model);
         }
     }
 
+    /**
+     * Appends the model to the end of current data set.
+     *
+     * @param model Model to append
+     */
     public void add(@NonNull TModel model) {
         TViewModel vm = unbound.poll();
 
@@ -65,8 +81,13 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
         bound.add(vm);
     }
 
+    /**
+     * Dispose of assets rendering the instance  unsable.
+     *
+     * Use to prevent things such as Context from leaking.
+     */
     public void dispose() {
-
+        // TODO
     }
 
     abstract TViewModel newViewModel(Context context);
