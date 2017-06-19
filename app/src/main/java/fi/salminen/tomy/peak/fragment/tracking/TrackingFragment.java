@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +28,15 @@ import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
 import fi.salminen.tomy.peak.util.JsonValidator;
+import fi.salminen.tomy.peak.viewmodels.MarkerTag;
 
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
     @BindView(R.id.mapView)
     MapView mMapView;
+
+    @BindView(R.id.mapFragmentRoot)
+    View root;
 
     @Inject
     @ForFragment
@@ -99,6 +104,12 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
         this.mMap = googleMap;
         mMarkerManager.manage(mMap);
         styleMap(mMap, mMapStyleJson);
+        mMap.setOnMarkerClickListener(marker -> {
+            String text = ((MarkerTag) marker.getTag()).getInfoText();
+            Snackbar.make(root, text, Snackbar.LENGTH_INDEFINITE).show();
+            // Return false so default behaviour may occur
+            return false;
+        });
     }
 
     private void styleMap(GoogleMap googleMap, String styleJson) {

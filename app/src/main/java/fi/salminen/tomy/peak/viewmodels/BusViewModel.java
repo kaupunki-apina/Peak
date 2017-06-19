@@ -1,7 +1,6 @@
 package fi.salminen.tomy.peak.viewmodels;
 
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -19,8 +18,7 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     private Marker marker;
 
 
-    public BusViewModel(Context context, GoogleMap map) {
-        super(context);
+    public BusViewModel(GoogleMap map) {
         this.map = map;
     }
 
@@ -29,6 +27,8 @@ public class BusViewModel extends BaseViewModel<BusModel> {
         marker = map.addMarker(
                 new MarkerOptions()
                         .position(latLngFromModel(model())));
+
+        marker.setTag(new BusMarkerTag(model().journeyPatternRef));
     }
 
     @Override
@@ -42,9 +42,27 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     @Override
     protected void onRebindModel(@NonNull BusModel newModel) {
         marker.setPosition(latLngFromModel(newModel));
+        marker.setTag(new BusMarkerTag(model().journeyPatternRef));
     }
 
     private LatLng latLngFromModel(BusModel model) {
         return new LatLng(model.latitude, model.longitude);
+    }
+
+    public class BusMarkerTag implements MarkerTag {
+        private String lineNum;
+
+        BusMarkerTag(String lineNum) {
+            this.lineNum = lineNum;
+        }
+
+        void setLineNum(String lineNum) {
+            this.lineNum = lineNum;
+        }
+
+        @Override
+        public String getInfoText() {
+            return lineNum;
+        }
     }
 }

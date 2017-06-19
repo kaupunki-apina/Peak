@@ -1,7 +1,6 @@
 package fi.salminen.tomy.peak.viewmodels;
 
 
-import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
@@ -10,11 +9,7 @@ import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel;
 public abstract class BaseViewModel<TModel extends BaseRXModel> {
     private TModel mModel;
     private boolean isBound = false;
-    protected Context context;
 
-    public BaseViewModel(Context context) {
-        this.context = context;
-    }
 
     @CallSuper
     public void bind(@NonNull TModel model) {

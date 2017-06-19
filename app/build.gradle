@@ -91,4 +91,5 @@ dependencies {
     // Butter Knife
     compile "com.jakewharton:butterknife:$dependencyVersions.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$dependencyVersions.butterknife"
+    compile 'com.android.support:design:25.3.1'
 }
