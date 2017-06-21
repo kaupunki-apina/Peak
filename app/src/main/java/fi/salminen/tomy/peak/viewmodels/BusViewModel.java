@@ -39,9 +39,10 @@ public class BusViewModel extends BaseViewModel<BusModel> {
         marker = map.addMarker(
                 new MarkerOptions()
                         .icon(getIcon(model()))
+                        .anchor(0.5f, 0.5f)
                         .position(latLngFromModel(model())));
 
-        marker.setTag(new BusMarkerTag(model().journeyPatternRef));
+        update(marker, model());
     }
 
     @Override
@@ -54,9 +55,20 @@ public class BusViewModel extends BaseViewModel<BusModel> {
 
     @Override
     protected void onRebindModel(@NonNull BusModel newModel) {
-        marker.setPosition(latLngFromModel(newModel));
-        marker.setIcon(getIcon(newModel));
-        ((BusMarkerTag) marker.getTag()).setLineNum(newModel.journeyPatternRef);
+        update(marker, newModel);
+    }
+
+    private void update(Marker marker, BusModel model) {
+        marker.setPosition(latLngFromModel(model));
+        marker.setIcon(getIcon(model));
+        marker.setRotation((float) model.bearing);
+        Object tag = marker.getTag();
+
+        if (tag == null) {
+            marker.setTag(new BusMarkerTag(model.journeyPatternRef));
+        } else {
+            ((BusMarkerTag) tag).setJourneyPatternRef(model.journeyPatternRef);
+        }
     }
 
     private LatLng latLngFromModel(BusModel model) {
@@ -68,19 +80,19 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     }
 
     public class BusMarkerTag implements MarkerTag {
-        private String lineNum;
+        private String journeyPatternRef;
 
-        BusMarkerTag(String lineNum) {
-            this.lineNum = lineNum;
+        BusMarkerTag(String journeyPatternRef) {
+            this.journeyPatternRef = journeyPatternRef;
         }
 
-        void setLineNum(String lineNum) {
-            this.lineNum = lineNum;
+        void setJourneyPatternRef(String journeyPatternRef) {
+            this.journeyPatternRef = journeyPatternRef;
         }
 
         @Override
         public String getInfoText() {
-            return lineNum;
+            return journeyPatternRef;
         }
     }
 }
