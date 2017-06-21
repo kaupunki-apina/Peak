@@ -34,7 +34,7 @@ public class MarkerManager {
     }
 
     public void manage(GoogleMap map) {
-        if (mBusPool == null) mBusPool = new BusViewModelPool(map);
+        if (mBusPool == null) mBusPool = new BusViewModelPool(map, context);
         initMarkers();
     }
 
