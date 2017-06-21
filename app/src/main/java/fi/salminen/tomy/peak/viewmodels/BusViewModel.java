@@ -4,7 +4,6 @@ package fi.salminen.tomy.peak.viewmodels;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -12,20 +11,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import javax.inject.Inject;
 
 import fi.salminen.tomy.peak.persistence.models.BusModel;
+import fi.salminen.tomy.peak.util.icons.IconFactory;
 
-// TODO
-// - Open dialog on click
+
 public class BusViewModel extends BaseViewModel<BusModel> {
 
     private GoogleMap map;
     private Marker marker;
-    private BitmapDescriptor iconMoving;
-    private BitmapDescriptor iconStationary;
+    private IconFactory iconFactory;
 
     @Inject
-    public BusViewModel(BitmapDescriptor iconMoving, BitmapDescriptor iconStationary) {
-        this.iconMoving = iconMoving;
-        this.iconStationary = iconStationary;
+    public BusViewModel(IconFactory iconFactory) {
+        this.iconFactory = iconFactory;
 
     }
 
@@ -38,7 +35,6 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     public void onBindModel() {
         marker = map.addMarker(
                 new MarkerOptions()
-                        .icon(getIcon(model()))
                         .anchor(0.5f, 0.5f)
                         .position(latLngFromModel(model())));
 
@@ -60,8 +56,8 @@ public class BusViewModel extends BaseViewModel<BusModel> {
 
     private void update(Marker marker, BusModel model) {
         marker.setPosition(latLngFromModel(model));
-        marker.setIcon(getIcon(model));
-        marker.setRotation((float) model.bearing);
+        marker.setIcon(iconFactory.getBusIcon(model));
+
         Object tag = marker.getTag();
 
         if (tag == null) {
@@ -73,10 +69,6 @@ public class BusViewModel extends BaseViewModel<BusModel> {
 
     private LatLng latLngFromModel(BusModel model) {
         return new LatLng(model.latitude, model.longitude);
-    }
-
-    private BitmapDescriptor getIcon(BusModel model) {
-        return model.speed == 0 ? iconStationary : iconMoving;
     }
 
     public class BusMarkerTag implements MarkerTag {

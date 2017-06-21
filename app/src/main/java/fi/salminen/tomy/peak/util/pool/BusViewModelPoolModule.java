@@ -1,12 +1,9 @@
 package fi.salminen.tomy.peak.util.pool;
 
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-
 import dagger.Module;
 import dagger.Provides;
-import fi.salminen.tomy.peak.util.icons.BusIconMoving;
-import fi.salminen.tomy.peak.util.icons.BusIconStationary;
+import fi.salminen.tomy.peak.util.icons.IconFactory;
 import fi.salminen.tomy.peak.util.icons.MarkerIconModule;
 import fi.salminen.tomy.peak.viewmodels.BusViewModel;
 
@@ -14,10 +11,7 @@ import fi.salminen.tomy.peak.viewmodels.BusViewModel;
 public class BusViewModelPoolModule {
 
     @Provides
-    BusViewModel provideBusViewModel(
-            @BusIconMoving BitmapDescriptor moving,
-            @BusIconStationary BitmapDescriptor stationary
-    ) {
-        return new BusViewModel(moving, stationary);
+    BusViewModel provideBusViewModel(IconFactory iconFactory) {
+        return new BusViewModel(iconFactory);
     }
 }
