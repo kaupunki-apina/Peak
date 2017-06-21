@@ -101,6 +101,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        // TODO Disable bottom right controls
         this.mMap = googleMap;
         mMarkerManager.manage(mMap);
         styleMap(mMap, mMapStyleJson);
