@@ -3,6 +3,7 @@ package fi.salminen.tomy.peak.util.icons;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,9 @@ public class IconFactory {
     private View backgroundMoving;
     private int sideLength;
     private int halfLength;
+    private Rect rect;
+    private int widthSpec;
+    private int heightSpec;
 
     IconFactory(Context context, int resIdLabel, int resIdStationary, int resIdMoving) {
         this.context = context;
@@ -40,6 +44,12 @@ public class IconFactory {
         this.backgroundMoving = inflate(resIdMoving);
         this.sideLength = context.getResources().getDimensionPixelSize(R.dimen.bus_icon_side);
         this.halfLength = sideLength / 2;
+
+        rect = new Rect();
+        rect.set(0, 0, sideLength, sideLength);
+
+        widthSpec = View.MeasureSpec.makeMeasureSpec(rect.width(), View.MeasureSpec.EXACTLY);
+        heightSpec = View.MeasureSpec.makeMeasureSpec(rect.height(), View.MeasureSpec.EXACTLY);
     }
 
     /**
@@ -68,6 +78,7 @@ public class IconFactory {
                     View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
                     Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bm);
+                    canvas.save();
 
                     canvas.rotate((float) model.bearing, halfLength, halfLength);
 
@@ -78,14 +89,16 @@ public class IconFactory {
                     background.destroyDrawingCache();
 
                     // Rotate back so that the text is aligned correctly.
-                    canvas.rotate((float) -model.bearing, halfLength, halfLength);
+                    canvas.restore();
 
                     // Draw text on top.
                     journeyPatternRefLabel.setText(model.journeyPatternRef);
+                    journeyPatternRefLabel.measure(widthSpec, heightSpec);
+                    journeyPatternRefLabel.layout(0, 0, rect.width(), rect.height());
                     journeyPatternRefLabel.buildDrawingCache();
-                    journeyPatternRefLabel.layout(0, 0, sideLength, sideLength);
                     journeyPatternRefLabel.draw(canvas);
                     journeyPatternRefLabel.destroyDrawingCache();
+
                     model.icon = BitmapDescriptorFactory.fromBitmap(bm);
                 }
 
