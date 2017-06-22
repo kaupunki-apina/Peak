@@ -110,7 +110,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
         styleMap(mMap, mMapStyleJson);
         mMap.setOnMarkerClickListener(marker -> {
             String text = ((MarkerTag) marker.getTag()).getInfoText();
-            Snackbar.make(root, text, Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar.make(root, text, Snackbar.LENGTH_LONG).show();
             // Return false so default behaviour may occur
             return false;
         });
