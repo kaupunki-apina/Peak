@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.util.icons;
+package fi.salminen.tomy.peak.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -37,7 +37,7 @@ public class IconFactory {
     private int widthSpec;
     private int heightSpec;
 
-    IconFactory(Context context, int resIdLabel, int resIdStationary, int resIdMoving) {
+    public IconFactory(Context context, int resIdLabel, int resIdStationary, int resIdMoving) {
         this.context = context;
         this.journeyPatternRefLabel = (TextView) inflate(resIdLabel);
         this.backgroundStationary = inflate(resIdStationary);

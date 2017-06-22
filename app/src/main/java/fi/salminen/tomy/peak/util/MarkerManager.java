@@ -14,7 +14,6 @@ import java.util.List;
 
 import fi.salminen.tomy.peak.persistence.models.BusModel;
 import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
-import fi.salminen.tomy.peak.util.icons.IconFactory;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
