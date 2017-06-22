@@ -15,6 +15,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import fi.salminen.tomy.peak.R;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 
 
 public class IconFactory {
@@ -28,7 +32,7 @@ public class IconFactory {
 
     IconFactory(Context context, int resIdLabel, int resIdStationary, int resIdMoving) {
         this.context = context;
-        this.journeyPatternRefLabel = (TextView)inflate(resIdLabel);
+        this.journeyPatternRefLabel = (TextView) inflate(resIdLabel);
         this.backgroundStationary = inflate(resIdStationary);
         this.backgroundMoving = inflate(resIdMoving);
         this.sideLength = context.getResources().getDimensionPixelSize(R.dimen.bus_icon_side);
@@ -56,31 +60,35 @@ public class IconFactory {
      * @param model Model for which an icon should be generated.
      * @return Ready to use icon.
      */
-    public BitmapDescriptor getBusIcon(BusModel model) {
-        // Icon for moving has a direction indicator.
-        View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
+    public Flowable<BitmapDescriptor> getBusIcon(BusModel model) {
+        return Flowable.create(new FlowableOnSubscribe<BitmapDescriptor>() {
+            @Override
+            public void subscribe(FlowableEmitter<BitmapDescriptor> e) throws Exception {
+                // Icon for moving has a direction indicator.
+                View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
+                Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bm);
 
-        // Create a canvas and rotate it to the direction of movement.
-        Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);
-        canvas.rotate((float) model.bearing, halfLength, halfLength);
+                canvas.rotate((float) model.bearing, halfLength, halfLength);
 
-        // Draw background.
-        background.layout(0, 0, sideLength, sideLength);
-        background.buildDrawingCache();
-        background.draw(canvas);
-        background.destroyDrawingCache();
+                // Draw background.
+                background.layout(0, 0, sideLength, sideLength);
+                background.buildDrawingCache();
+                background.draw(canvas);
+                background.destroyDrawingCache();
 
-        // Rotate back so that the text is aligned correctly.
-        canvas.rotate((float) -model.bearing, halfLength, halfLength);
+                // Rotate back so that the text is aligned correctly.
+                canvas.rotate((float) -model.bearing, halfLength, halfLength);
 
-        // Draw text on top.
-        journeyPatternRefLabel.setText(model.journeyPatternRef);
-        journeyPatternRefLabel.buildDrawingCache();
-        journeyPatternRefLabel.layout(0, 0, sideLength, sideLength);
-        journeyPatternRefLabel.draw(canvas);
-        journeyPatternRefLabel.destroyDrawingCache();
+                // Draw text on top.
+                journeyPatternRefLabel.setText(model.journeyPatternRef);
+                journeyPatternRefLabel.buildDrawingCache();
+                journeyPatternRefLabel.layout(0, 0, sideLength, sideLength);
+                journeyPatternRefLabel.draw(canvas);
+                journeyPatternRefLabel.destroyDrawingCache();
 
-        return BitmapDescriptorFactory.fromBitmap(bm);
+                e.onNext(BitmapDescriptorFactory.fromBitmap(bm));
+            }
+        }, BackpressureStrategy.ERROR);
     }
 }
