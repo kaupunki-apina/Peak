@@ -8,25 +8,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import javax.inject.Inject;
-
 import fi.salminen.tomy.peak.persistence.models.BusModel;
-import fi.salminen.tomy.peak.util.icons.IconFactory;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class BusViewModel extends BaseViewModel<BusModel> {
 
     private GoogleMap map;
     private Marker marker;
-    private IconFactory iconFactory;
-
-    @Inject
-    public BusViewModel(IconFactory iconFactory) {
-        this.iconFactory = iconFactory;
-
-    }
 
     public BusViewModel setMap(GoogleMap map) {
         this.map = map;
@@ -57,21 +45,16 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     }
 
     private void update(Marker marker, BusModel model) {
-        iconFactory.getBusIcon(model)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(icon -> {
-                    marker.setPosition(latLngFromModel(model));
-                    marker.setIcon(icon);
+        marker.setPosition(latLngFromModel(model));
+        marker.setIcon(model.icon);
 
-                    Object tag = marker.getTag();
+        Object tag = marker.getTag();
 
-                    if (tag == null) {
-                        marker.setTag(new BusMarkerTag(model.journeyPatternRef));
-                    } else {
-                        ((BusMarkerTag) tag).setJourneyPatternRef(model.journeyPatternRef);
-                    }
-                });
+        if (tag == null) {
+            marker.setTag(new BusMarkerTag(model.journeyPatternRef));
+        } else {
+            ((BusMarkerTag) tag).setJourneyPatternRef(model.journeyPatternRef);
+        }
     }
 
     private LatLng latLngFromModel(BusModel model) {

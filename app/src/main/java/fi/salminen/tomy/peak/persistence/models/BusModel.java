@@ -2,6 +2,7 @@ package fi.salminen.tomy.peak.persistence.models;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -45,9 +46,10 @@ public class BusModel extends BaseRXModel {
     @Column
     @Expose
     public Date validUntilTime;
+    public BitmapDescriptor icon;
 
     public static class Deserializer implements JsonDeserializer<BusModel> {
-        // TODO Unhardcoded date format.
+        // TODO Unhardcode date format.
         private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         private static final String TAG = Deserializer.class.getName();
 

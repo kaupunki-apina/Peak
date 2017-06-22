@@ -12,13 +12,16 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import fi.salminen.tomy.peak.R;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 
 public class IconFactory {
@@ -54,41 +57,50 @@ public class IconFactory {
         return view;
     }
 
-    /**
-     * Creates an appropriate icon for the given BusModel.
-     *
-     * @param model Model for which an icon should be generated.
-     * @return Ready to use icon.
-     */
-    public Flowable<BitmapDescriptor> getBusIcon(BusModel model) {
-        return Flowable.create(new FlowableOnSubscribe<BitmapDescriptor>() {
+    public Observable<Void> getBusIcon(List<BusModel> models) {
+        LinkedList<Result<BusModel>> results = new LinkedList<>();
+
+        return Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
-            public void subscribe(FlowableEmitter<BitmapDescriptor> e) throws Exception {
-                // Icon for moving has a direction indicator.
-                View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
-                Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bm);
+            public void subscribe(ObservableEmitter<Void> e) throws Exception {
+                for (BusModel model : models) {
+                    // Icon for moving has a direction indicator.
+                    View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
+                    Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bm);
 
-                canvas.rotate((float) model.bearing, halfLength, halfLength);
+                    canvas.rotate((float) model.bearing, halfLength, halfLength);
 
-                // Draw background.
-                background.layout(0, 0, sideLength, sideLength);
-                background.buildDrawingCache();
-                background.draw(canvas);
-                background.destroyDrawingCache();
+                    // Draw background.
+                    background.layout(0, 0, sideLength, sideLength);
+                    background.buildDrawingCache();
+                    background.draw(canvas);
+                    background.destroyDrawingCache();
 
-                // Rotate back so that the text is aligned correctly.
-                canvas.rotate((float) -model.bearing, halfLength, halfLength);
+                    // Rotate back so that the text is aligned correctly.
+                    canvas.rotate((float) -model.bearing, halfLength, halfLength);
 
-                // Draw text on top.
-                journeyPatternRefLabel.setText(model.journeyPatternRef);
-                journeyPatternRefLabel.buildDrawingCache();
-                journeyPatternRefLabel.layout(0, 0, sideLength, sideLength);
-                journeyPatternRefLabel.draw(canvas);
-                journeyPatternRefLabel.destroyDrawingCache();
+                    // Draw text on top.
+                    journeyPatternRefLabel.setText(model.journeyPatternRef);
+                    journeyPatternRefLabel.buildDrawingCache();
+                    journeyPatternRefLabel.layout(0, 0, sideLength, sideLength);
+                    journeyPatternRefLabel.draw(canvas);
+                    journeyPatternRefLabel.destroyDrawingCache();
+                    model.icon = BitmapDescriptorFactory.fromBitmap(bm);
+                }
 
-                e.onNext(BitmapDescriptorFactory.fromBitmap(bm));
+                e.onComplete();
             }
-        }, BackpressureStrategy.ERROR);
+        });
+    }
+
+    public class Result<T extends BaseRXModel> {
+        public T model;
+        public BitmapDescriptor icon;
+
+        Result(T model, BitmapDescriptor icon) {
+            this.model = model;
+            this.icon = icon;
+        }
     }
 }

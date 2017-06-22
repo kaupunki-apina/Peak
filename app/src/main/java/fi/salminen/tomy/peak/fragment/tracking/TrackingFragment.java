@@ -28,6 +28,8 @@ import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
 import fi.salminen.tomy.peak.util.JsonValidator;
+import fi.salminen.tomy.peak.util.MarkerManager;
+import fi.salminen.tomy.peak.util.icons.MarkerIconModule;
 import fi.salminen.tomy.peak.viewmodels.MarkerTag;
 
 
@@ -83,6 +85,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
     protected TrackingFragmentComponent createComponent() {
         return DaggerTrackingFragmentComponent.builder()
                 .baseFragmentModule(new BaseFragmentModule(this))
+                .markerIconModule(new MarkerIconModule())
                 .peakApplicationComponent(PeakApplication.getApplication(getActivity()).component())
                 .build();
     }

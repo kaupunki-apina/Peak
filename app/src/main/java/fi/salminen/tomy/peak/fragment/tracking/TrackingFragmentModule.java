@@ -9,12 +9,15 @@ import dagger.Module;
 import dagger.Provides;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
+import fi.salminen.tomy.peak.util.MarkerManager;
+import fi.salminen.tomy.peak.util.icons.IconFactory;
+import fi.salminen.tomy.peak.util.icons.MarkerIconModule;
 
-@Module(includes = BaseFragmentModule.class)
+@Module(includes = {BaseFragmentModule.class, MarkerIconModule.class})
 class TrackingFragmentModule {
 
     @Provides
-    MarkerManager provideMarkerManager(@ForFragment Context context, FlowContentObserver fco) {
-        return new MarkerManager(context, fco);
+    MarkerManager provideMarkerManager(@ForFragment Context context, FlowContentObserver fco, IconFactory iconFactory) {
+        return new MarkerManager(context, fco, iconFactory);
     }
 }
