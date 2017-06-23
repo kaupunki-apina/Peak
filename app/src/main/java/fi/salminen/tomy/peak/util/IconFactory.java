@@ -15,7 +15,6 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import fi.salminen.tomy.peak.R;
@@ -74,8 +73,6 @@ public class IconFactory {
     }
 
     public Observable<Void> getBusIcon(List<BusModel> models) {
-        LinkedList<Result<BusModel>> results = new LinkedList<>();
-
         return Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
             public void subscribe(ObservableEmitter<Void> e) throws Exception {
