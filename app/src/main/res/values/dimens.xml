@@ -3,5 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="bus_icon_side">36dp</dimen>
+    <dimen name="bus_icon_side">48dp</dimen>
 </resources>
