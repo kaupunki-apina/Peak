@@ -5,8 +5,7 @@
     android:id="@+id/activity_tracking"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.salminen.tomy.peak.activity.tracking.TrackingActivity"
-    >
+    tools:context="fi.salminen.tomy.peak.activity.tracking.TrackingActivity">
 
     <fragment
         android:id="@+id/mapFragment"
@@ -15,20 +14,20 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/buttonMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_settings_black_24dp"
-        android:id="@+id/floatingActionButton"
-        app:layout_anchor="@+id/mapFragment"
+        android:layout_gravity="bottom|left"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:clickable="true"
+        android:tint="?android:attr/textColorPrimaryInverse"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/mapFragment"
         app:layout_anchorGravity="top|right"
-        android:layout_gravity="center_vertical|right"
-        android:tint="?android:attr/textColorPrimaryInverse" />
+        app:srcCompat="@drawable/ic_settings_black_24dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

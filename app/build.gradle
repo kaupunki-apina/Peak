@@ -58,6 +58,9 @@ dependencies {
     // Android support
     compile "com.android.support:appcompat-v7:$dependencyVersions.androidSupportLibrary"
     compile "com.android.support:support-v4:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:design:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:support-v4:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:support-vector-drawable:$dependencyVersions.androidSupportLibrary"
 
     // Dagger2
     compile "com.google.dagger:dagger:$dependencyVersions.dagger2"
@@ -82,7 +85,6 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dependencyVersions.dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dependencyVersions.dbflow"
 
-
     // Junit
     testCompile "junit:junit:$dependencyVersions.junit"
 
@@ -92,5 +94,4 @@ dependencies {
     // Butter Knife
     compile "com.jakewharton:butterknife:$dependencyVersions.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$dependencyVersions.butterknife"
-    compile 'com.android.support:design:25.3.1'
 }
