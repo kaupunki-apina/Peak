@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
 import fi.salminen.tomy.peak.util.JsonValidator;
 import fi.salminen.tomy.peak.util.MarkerManager;
+import fi.salminen.tomy.peak.util.Ui;
 import fi.salminen.tomy.peak.viewmodels.MarkerTag;
 
 
@@ -108,6 +110,11 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
         UiSettings setting = this.mMap.getUiSettings();
         setting.setMapToolbarEnabled(false);
+
+        if (Ui.isTranslucentStatusBar((AppCompatActivity) context)) {
+            int padding = Ui.getStatusBarHeight(context);
+            googleMap.setPadding(0, padding, 0, 0);
+        }
 
         mMarkerManager.manage(mMap);
         mMap.setOnMarkerClickListener(marker -> {
