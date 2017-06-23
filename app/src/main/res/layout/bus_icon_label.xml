@@ -3,7 +3,7 @@
     android:layout_width="@dimen/bus_icon_side"
     android:layout_height="@dimen/bus_icon_side"
     android:text="Tmp"
-    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+    android:textAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
     android:gravity="center">
 
 </TextView>

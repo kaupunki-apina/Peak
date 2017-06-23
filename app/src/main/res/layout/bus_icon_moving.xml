@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/bus_icon_side"
     android:layout_height="@dimen/bus_icon_side"
     android:orientation="vertical"
-    android:background="@color/colorAccent">
+    android:src="@drawable/ic_bus_icon_moving">
 
-</RelativeLayout>
+</ImageView>
