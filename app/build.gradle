@@ -14,6 +14,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'URL_API_BASE', '"http://data.itsfactory.fi/journeys/api/1/"'
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -91,4 +92,5 @@ dependencies {
     // Butter Knife
     compile "com.jakewharton:butterknife:$dependencyVersions.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$dependencyVersions.butterknife"
+    compile 'com.android.support:design:25.3.1'
 }

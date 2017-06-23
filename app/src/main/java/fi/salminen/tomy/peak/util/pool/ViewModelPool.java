@@ -1,7 +1,6 @@
 package fi.salminen.tomy.peak.util.pool;
 
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel;
@@ -15,11 +14,9 @@ import fi.salminen.tomy.peak.viewmodels.BaseViewModel;
 public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel extends BaseRXModel> {
     private ConcurrentLinkedQueue<TViewModel> unbound;
     private LinkedList<TViewModel> bound;
-    private Context context;
 
 
-    public ViewModelPool(@NonNull Context context) {
-        this.context = context;
+    public ViewModelPool() {
         unbound = new ConcurrentLinkedQueue<>();
         bound = new LinkedList<>();
     }
@@ -73,7 +70,7 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
         TViewModel vm = unbound.poll();
 
         if (vm == null) {
-            vm = newViewModel(context);
+            vm = newViewModel();
         }
 
         vm.bind(model);
@@ -89,5 +86,5 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
         // TODO
     }
 
-    abstract TViewModel newViewModel(Context context);
+    abstract TViewModel newViewModel();
 }

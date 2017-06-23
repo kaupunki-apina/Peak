@@ -52,6 +52,7 @@ public class BusLocationService extends BaseService<BusLocationServiceComponent>
     }
 
     public IBinder onBind(Intent intent) {
+        // TODO Turn into a bound service.
         // Started service, cannot be bound.
         return null;
     }
