@@ -45,9 +45,11 @@ public class IconFactory {
         this.sideLength = context.getResources().getDimensionPixelSize(R.dimen.bus_icon_side);
         this.halfLength = sideLength / 2;
 
-        // Disable hardware accelerated drawing
-        backgroundMoving.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        backgroundStationary.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        if (android.os.Build.VERSION.SDK_INT >= 11) {
+            // Disable hardware accelerated drawing
+            backgroundMoving.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            backgroundStationary.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
 
         rect = new Rect();
         rect.set(0, 0, sideLength, sideLength);
