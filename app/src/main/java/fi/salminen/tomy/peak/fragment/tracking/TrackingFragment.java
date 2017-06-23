@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 
@@ -102,10 +103,13 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // TODO Disable bottom right controls
         this.mMap = googleMap;
-        mMarkerManager.manage(mMap);
         styleMap(mMap, mMapStyleJson);
+
+        UiSettings setting = this.mMap.getUiSettings();
+        setting.setMapToolbarEnabled(false);
+
+        mMarkerManager.manage(mMap);
         mMap.setOnMarkerClickListener(marker -> {
             String text = ((MarkerTag) marker.getTag()).getInfoText();
             Snackbar.make(root, text, Snackbar.LENGTH_LONG).show();
