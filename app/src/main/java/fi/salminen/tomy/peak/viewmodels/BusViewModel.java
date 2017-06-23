@@ -47,6 +47,7 @@ public class BusViewModel extends BaseViewModel<BusModel> {
     private void update(Marker marker, BusModel model) {
         marker.setPosition(latLngFromModel(model));
         marker.setIcon(model.icon);
+        marker.setRotation((float) model.bearing);
 
         Object tag = marker.getTag();
 

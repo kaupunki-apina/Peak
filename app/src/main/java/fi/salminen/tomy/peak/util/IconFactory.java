@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.raizlabs.android.dbflow.rx2.structure.BaseRXModel;
 
 import java.util.List;
 
@@ -72,6 +70,7 @@ public class IconFactory {
         return view;
     }
 
+
     public Observable<Void> getBusIcon(List<BusModel> models) {
         return Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
@@ -81,9 +80,6 @@ public class IconFactory {
                     View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
                     Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bm);
-                    canvas.save();
-
-                    canvas.rotate((float) model.bearing, halfLength, halfLength);
 
                     // Draw background.
                     background.layout(0, 0, sideLength, sideLength);
@@ -91,8 +87,9 @@ public class IconFactory {
                     background.draw(canvas);
                     background.destroyDrawingCache();
 
-                    // Rotate back so that the text is aligned correctly.
-                    canvas.restore();
+
+                    canvas.save();
+                    canvas.rotate((float) -model.bearing, halfLength, halfLength);
 
                     // Draw text on top.
                     journeyPatternRefLabel.setText(model.journeyPatternRef);
@@ -102,21 +99,13 @@ public class IconFactory {
                     journeyPatternRefLabel.draw(canvas);
                     journeyPatternRefLabel.destroyDrawingCache();
 
+                    canvas.restore();
+
                     model.icon = BitmapDescriptorFactory.fromBitmap(bm);
                 }
 
                 e.onComplete();
             }
         });
-    }
-
-    public class Result<T extends BaseRXModel> {
-        public T model;
-        public BitmapDescriptor icon;
-
-        Result(T model, BitmapDescriptor icon) {
-            this.model = model;
-            this.icon = icon;
-        }
     }
 }
