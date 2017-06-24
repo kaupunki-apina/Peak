@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <!-- Show while downloading available lines -->
     <ProgressBar
         android:id="@+id/dialog_select_lines_progressBar"
         android:layout_width="wrap_content"
