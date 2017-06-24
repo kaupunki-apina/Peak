@@ -8,6 +8,8 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 
 import fi.salminen.tomy.peak.core.BaseApplication;
 import fi.salminen.tomy.peak.inject.application.BaseApplicationModule;
+import fi.salminen.tomy.peak.network.api.JourneysApiModule;
+import fi.salminen.tomy.peak.persistence.PersistenceModule;
 
 
 public class PeakApplication extends BaseApplication<PeakApplicationComponent> {
@@ -29,6 +31,8 @@ public class PeakApplication extends BaseApplication<PeakApplicationComponent> {
     protected PeakApplicationComponent createComponent() {
         return DaggerPeakApplicationComponent.builder()
                 .baseApplicationModule(new BaseApplicationModule(this))
+                .journeysApiModule(new JourneysApiModule())
+                .persistenceModule(new PersistenceModule(PeakApplication.getApplication(this)))
                 .build();
     }
 
