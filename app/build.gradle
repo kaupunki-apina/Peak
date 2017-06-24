@@ -45,7 +45,8 @@ ext {
             junit                  : '4.12',
             espresso               : '2.2.2',
             gmaps                  : '10.2.1',
-            butterknife            : '8.4.0'
+            butterknife            : '8.4.0',
+            storebox               : '1.4.0'
     ]
 }
 
@@ -58,6 +59,9 @@ dependencies {
     // Android support
     compile "com.android.support:appcompat-v7:$dependencyVersions.androidSupportLibrary"
     compile "com.android.support:support-v4:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:design:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:support-v4:$dependencyVersions.androidSupportLibrary"
+    compile "com.android.support:support-vector-drawable:$dependencyVersions.androidSupportLibrary"
 
     // Dagger2
     compile "com.google.dagger:dagger:$dependencyVersions.dagger2"
@@ -82,7 +86,6 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dependencyVersions.dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dependencyVersions.dbflow"
 
-
     // Junit
     testCompile "junit:junit:$dependencyVersions.junit"
 
@@ -92,5 +95,7 @@ dependencies {
     // Butter Knife
     compile "com.jakewharton:butterknife:$dependencyVersions.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$dependencyVersions.butterknife"
-    compile 'com.android.support:design:25.3.1'
+
+    // StoreBox
+    compile "net.orange-box.storebox:storebox-lib:$dependencyVersions.storebox"
 }

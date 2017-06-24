@@ -1,10 +1,14 @@
-package fi.salminen.tomy.peak.activity.tracking;
+package fi.salminen.tomy.peak.feature.tracking;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fi.salminen.tomy.peak.R;
+import fi.salminen.tomy.peak.feature.settings.SettingsActivity;
 import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseActivity;
 import fi.salminen.tomy.peak.inject.activity.BaseActivityModule;
@@ -17,7 +21,7 @@ public class TrackingActivity extends BaseActivity<TrackingActivityComponent> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
-
+        ButterKnife.bind(this);
     }
 
     @NonNull
@@ -39,6 +43,11 @@ public class TrackingActivity extends BaseActivity<TrackingActivityComponent> {
     protected void onStop() {
         super.onStop();
         stopService(new Intent(TrackingActivity.this, BusLocationService.class));
+    }
+
+    @OnClick(R.id.buttonMenu)
+    public void launchMenu(View view) {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     @Override

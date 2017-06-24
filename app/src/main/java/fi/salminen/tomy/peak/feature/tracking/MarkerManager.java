@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.util;
+package fi.salminen.tomy.peak.feature.tracking;
 
 
 import android.content.Context;
@@ -11,7 +11,12 @@ import com.raizlabs.android.dbflow.sql.language.Where;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.inject.Inject;
+
+import fi.salminen.tomy.peak.app.PeakApplication;
+import fi.salminen.tomy.peak.persistence.PeakPrefs;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
 import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
@@ -21,20 +26,31 @@ import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 
-// TODO
-// Listen for changes in the selected lines
+
 public class MarkerManager {
-    private IconFactory iconFactory;
     private Context context;
-    private FlowContentObserver fco;
     private BusViewModelPool mBusPool;
     private boolean isFcoRegistered;
+    private MarkerManagerComponent component;
 
-    public MarkerManager(Context context, FlowContentObserver fco, IconFactory iconFactory) {
-        this.iconFactory = iconFactory;
+    @Inject
+    IconFactory iconFactory;
+
+    @Inject
+    FlowContentObserver fco;
+
+    @Inject
+    PeakPrefs prefs;
+
+    public MarkerManager(Context context) {
         this.context = context;
-        this.fco = fco;
         this.isFcoRegistered = false;
+        this.component = DaggerMarkerManagerComponent.builder()
+                .peakApplicationComponent(PeakApplication.getApplication(context).component())
+                .markerManagerModule(new MarkerManagerModule(context))
+                .build();
+
+        component.inject(this);
     }
 
     public void manage(GoogleMap map) {
@@ -79,9 +95,16 @@ public class MarkerManager {
     }
 
     private Where<BusModel> getBusSql() {
-        return SQLite.select()
+        Set<String> selectedLines = prefs.getSelectedLines();
+
+        Where<BusModel> sql = SQLite.select()
                 .from(BusModel.class)
-                // TODO Filter to selected lines only.
                 .where(BusModel_Table.validUntilTime.greaterThan(new Date()));
+
+        if (selectedLines != null) {
+            return sql.and(BusModel_Table.journeyPatternRef.in(selectedLines));
+        }
+
+        return sql;
     }
 }

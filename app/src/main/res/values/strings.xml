@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Peak</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="key_peak_application_prefs" translatable="false">peak_application_prefs</string>
 </resources>

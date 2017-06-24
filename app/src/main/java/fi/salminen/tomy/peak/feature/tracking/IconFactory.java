@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.util;
+package fi.salminen.tomy.peak.feature.tracking;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -77,7 +77,7 @@ public class IconFactory {
             public void subscribe(ObservableEmitter<Void> e) throws Exception {
                 for (BusModel model : models) {
                     // Icon for moving has a direction indicator.
-                    View background = model.speed == 0 ? backgroundStationary : backgroundMoving;
+                    View background = model.speed < 3 ? backgroundStationary : backgroundMoving;
                     Bitmap bm = Bitmap.createBitmap(sideLength, sideLength, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bm);
 
@@ -87,7 +87,7 @@ public class IconFactory {
                     background.draw(canvas);
                     background.destroyDrawingCache();
 
-
+                    // Rotate label so that it's orientated correctly.
                     canvas.save();
                     canvas.rotate((float) -model.bearing, halfLength, halfLength);
 

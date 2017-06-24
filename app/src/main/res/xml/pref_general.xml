@@ -1,0 +1,8 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <fi.salminen.tomy.peak.feature.settings.SelectLinesDialog
+        android:defaultValue=""
+        android:key="@string/prefs_select_lines_key"
+        android:title="@string/prefs_select_lines_titles" />
+
+</PreferenceScreen>
