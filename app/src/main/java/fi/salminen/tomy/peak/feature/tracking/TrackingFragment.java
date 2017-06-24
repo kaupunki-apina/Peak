@@ -34,6 +34,10 @@ import fi.salminen.tomy.peak.viewmodels.MarkerTag;
 
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> implements OnMapReadyCallback {
+    private GoogleMap mMap;
+    private Unbinder mUnbinder;
+    private String mMapStyleJson;
+
     @BindView(R.id.mapView)
     MapView mMapView;
 
@@ -49,10 +53,6 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @Inject
     MarkerManager mMarkerManager;
-
-    private GoogleMap mMap;
-    private Unbinder mUnbinder;
-    private String mMapStyleJson;
 
     public TrackingFragment() {
         // Required empty public constructor

@@ -11,10 +11,12 @@ import com.raizlabs.android.dbflow.sql.language.Where;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import fi.salminen.tomy.peak.app.PeakApplication;
+import fi.salminen.tomy.peak.persistence.PeakPrefs;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
 import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
@@ -24,8 +26,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 
-// TODO
-// Listen for changes in the selected lines
+
 public class MarkerManager {
     private Context context;
     private BusViewModelPool mBusPool;
@@ -37,6 +38,9 @@ public class MarkerManager {
 
     @Inject
     FlowContentObserver fco;
+
+    @Inject
+    PeakPrefs prefs;
 
     public MarkerManager(Context context) {
         this.context = context;
@@ -91,9 +95,16 @@ public class MarkerManager {
     }
 
     private Where<BusModel> getBusSql() {
-        return SQLite.select()
+        Set<String> selectedLines = prefs.getSelectedLines();
+
+        Where<BusModel> sql = SQLite.select()
                 .from(BusModel.class)
-                // TODO Filter to selected lines only.
                 .where(BusModel_Table.validUntilTime.greaterThan(new Date()));
+
+        if (selectedLines != null) {
+            return sql.and(BusModel_Table.journeyPatternRef.in(selectedLines));
+        }
+
+        return sql;
     }
 }
