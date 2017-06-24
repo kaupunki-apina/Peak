@@ -12,46 +12,45 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fi.salminen.tomy.peak.R;
-import fi.salminen.tomy.peak.persistence.models.LineModel;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
-    private List<ListItem> items;
+    private List<LineViewState> viewStates;
 
     RecyclerViewAdapter() {
-        this.items = new ArrayList<>();
+        this.viewStates = new ArrayList<>();
     }
 
-
-    void setItems(List<LineModel> lines) {
-        items.clear();
-
-        for (LineModel line : lines) {
-            items.add(new ListItem(line));
-        }
-
+    void setLines(List<LineViewState> viewStates) {
+        this.viewStates = viewStates;
         notifyDataSetChanged();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
+        return new LineViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_select_line, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder) holder).display(position);
+        ((LineViewHolder) holder).display(position);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return viewStates.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public List<LineViewState> getViewStates() {
+        return viewStates;
+    }
+
+
+    class LineViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.list_item_select_line_label)
         TextView lineRef;
@@ -59,32 +58,52 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         @BindView(R.id.list_item_select_line_is_checked)
         CheckBox isChecked;
 
-        ViewHolder(View itemView) {
+        private int position;
+
+        LineViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         void display(int position) {
-            ListItem listItem = RecyclerViewAdapter.this.items.get(position);
-            lineRef.setText(listItem.getLabel());
-            isChecked.setChecked(listItem.isSelected());
+            this.position = position;
+            LineViewState lineItem = RecyclerViewAdapter.this.viewStates.get(position);
+            lineRef.setText(lineItem.getLabel());
+            isChecked.setChecked(lineItem.isChecked());
+        }
+
+        @OnClick(R.id.list_item_select_line_root)
+        void toggle() {
+            RecyclerViewAdapter.this.viewStates.get(position).toggle();
+            isChecked.setChecked(!isChecked.isChecked());
         }
     }
 
-    private class ListItem {
-        LineModel lineModel;
+    class LineViewState {
+        private String id;
+        private String label;
+        private boolean isChecked;
 
-        ListItem(LineModel lineModel) {
-            this.lineModel = lineModel;
+        LineViewState(String id, String label, boolean isChecked) {
+            this.id = id;
+            this.label = label;
+            this.isChecked = isChecked;
         }
 
-        String getLabel() {
-            return lineModel.name;
+        public String getLabel() {
+            return label;
         }
 
-        boolean isSelected() {
-            // TODO
-            return true;
+        public String getId() {
+            return id;
+        }
+
+        public boolean isChecked() {
+            return isChecked;
+        }
+
+        void toggle() {
+            isChecked = !isChecked;
         }
     }
 }
