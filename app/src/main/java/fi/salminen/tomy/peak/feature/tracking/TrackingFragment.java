@@ -17,7 +17,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 
 import javax.inject.Inject;
 
@@ -47,9 +46,6 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @Inject
     JsonValidator validator;
-
-    @Inject
-    FlowContentObserver fco;
 
     @Inject
     MarkerManager mMarkerManager;

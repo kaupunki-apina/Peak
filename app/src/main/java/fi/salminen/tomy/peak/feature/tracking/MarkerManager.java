@@ -12,6 +12,9 @@ import com.raizlabs.android.dbflow.sql.language.Where;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
 import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
@@ -24,17 +27,26 @@ import io.reactivex.schedulers.Schedulers;
 // TODO
 // Listen for changes in the selected lines
 public class MarkerManager {
-    private IconFactory iconFactory;
     private Context context;
-    private FlowContentObserver fco;
     private BusViewModelPool mBusPool;
     private boolean isFcoRegistered;
+    private MarkerManagerComponent component;
 
-    public MarkerManager(Context context, FlowContentObserver fco, IconFactory iconFactory) {
-        this.iconFactory = iconFactory;
+    @Inject
+    IconFactory iconFactory;
+
+    @Inject
+    FlowContentObserver fco;
+
+    public MarkerManager(Context context) {
         this.context = context;
-        this.fco = fco;
         this.isFcoRegistered = false;
+        this.component = DaggerMarkerManagerComponent.builder()
+                .peakApplicationComponent(PeakApplication.getApplication(context).component())
+                .markerManagerModule(new MarkerManagerModule(context))
+                .build();
+
+        component.inject(this);
     }
 
     public void manage(GoogleMap map) {

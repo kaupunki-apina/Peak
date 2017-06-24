@@ -32,7 +32,7 @@ public class PeakApplication extends BaseApplication<PeakApplicationComponent> {
         return DaggerPeakApplicationComponent.builder()
                 .baseApplicationModule(new BaseApplicationModule(this))
                 .journeysApiModule(new JourneysApiModule())
-                .persistenceModule(new PersistenceModule(PeakApplication.getApplication(this)))
+                .persistenceModule(new PersistenceModule(this))
                 .build();
     }
 
