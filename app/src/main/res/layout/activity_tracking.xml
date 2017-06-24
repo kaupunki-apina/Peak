@@ -5,11 +5,11 @@
     android:id="@+id/activity_tracking"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fi.salminen.tomy.peak.activity.tracking.TrackingActivity">
+    tools:context="fi.salminen.tomy.peak.feature.tracking.TrackingActivity">
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="fi.salminen.tomy.peak.fragment.tracking.TrackingFragment"
+        android:name="fi.salminen.tomy.peak.feature.tracking.TrackingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

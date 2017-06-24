@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.activity.tracking;
+package fi.salminen.tomy.peak.feature.tracking;
 
 
 import dagger.Component;

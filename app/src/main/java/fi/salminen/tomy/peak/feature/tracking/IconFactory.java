@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.util;
+package fi.salminen.tomy.peak.feature.tracking;
 
 import android.content.Context;
 import android.graphics.Bitmap;

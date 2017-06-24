@@ -19,7 +19,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activity.tracking.TrackingActivity"
+            android:name=".feature.tracking.TrackingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".activity.settings.SettingsActivity"
+            android:name=".feature.settings.SettingsActivity"
             android:label="@string/title_activity_settings"/>
     </application>
 

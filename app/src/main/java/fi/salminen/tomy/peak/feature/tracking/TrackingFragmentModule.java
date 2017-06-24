@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.fragment.tracking;
+package fi.salminen.tomy.peak.feature.tracking;
 
 
 import android.content.Context;
@@ -10,8 +10,6 @@ import dagger.Provides;
 import fi.salminen.tomy.peak.R;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
-import fi.salminen.tomy.peak.util.MarkerManager;
-import fi.salminen.tomy.peak.util.IconFactory;
 
 @Module(includes = BaseFragmentModule.class)
 class TrackingFragmentModule {

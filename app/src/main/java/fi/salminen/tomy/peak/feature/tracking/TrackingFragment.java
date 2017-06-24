@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.fragment.tracking;
+package fi.salminen.tomy.peak.feature.tracking;
 
 
 import android.content.Context;
@@ -30,7 +30,6 @@ import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
 import fi.salminen.tomy.peak.inject.fragment.ForFragment;
 import fi.salminen.tomy.peak.util.JsonValidator;
-import fi.salminen.tomy.peak.util.MarkerManager;
 import fi.salminen.tomy.peak.util.Ui;
 import fi.salminen.tomy.peak.viewmodels.MarkerTag;
 
