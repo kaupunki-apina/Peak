@@ -9,24 +9,35 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fi.salminen.tomy.peak.R;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
     private List<LineViewState> viewStates;
+    private int selectedCount;
+    private PublishSubject<Boolean> onToggleSubject;
 
     RecyclerViewAdapter() {
         this.viewStates = new ArrayList<>();
+        onToggleSubject = PublishSubject.create();
     }
 
     void setLines(List<LineViewState> viewStates) {
+        this.selectedCount = 0;
         this.viewStates = viewStates;
         notifyDataSetChanged();
+
+        for(LineViewState viewState : viewStates) {
+            if (viewState.isChecked()) selectedCount++;
+        }
     }
 
     @Override
@@ -49,6 +60,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         return viewStates;
     }
 
+    public Observable<Boolean> getOnToggleObservable() {
+        return (Observable) onToggleSubject;
+    }
+
+    public boolean isAllSelected() {
+        return this.selectedCount == this.viewStates.size();
+    }
+
 
     class LineViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         TextView lineRef;
 
         @BindView(R.id.list_item_select_line_is_checked)
-        CheckBox isChecked;
+        CheckBox checkBox;
 
         private int position;
 
@@ -69,13 +88,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
             this.position = position;
             LineViewState lineItem = RecyclerViewAdapter.this.viewStates.get(position);
             lineRef.setText(lineItem.getLabel());
-            isChecked.setChecked(lineItem.isChecked());
+            checkBox.setChecked(lineItem.isChecked());
         }
 
         @OnClick(R.id.list_item_select_line_root)
         void toggle() {
             RecyclerViewAdapter.this.viewStates.get(position).toggle();
-            isChecked.setChecked(!isChecked.isChecked());
+            checkBox.setChecked(!checkBox.isChecked());
+
+            if (checkBox.isChecked()) {
+                RecyclerViewAdapter.this.selectedCount++;
+            } else {
+                RecyclerViewAdapter.this.selectedCount--;
+            }
+
+            RecyclerViewAdapter.this.onToggleSubject.onNext(true);
+        }
+    }
+
+    public void selectAll() {
+        setAll(true);
+        this.selectedCount = this.viewStates.size();
+    }
+
+    public void deselectAll() {
+        setAll(false);
+        this.selectedCount = 0;
+    }
+
+    private void setAll(boolean checked) {
+        this.selectedCount = this.viewStates.size();
+        ListIterator<LineViewState> it = this.viewStates.listIterator();
+        int index;
+
+        while(it.hasNext()) {
+            index = it.nextIndex();
+            if (it.next().setIsChecked(checked)) notifyItemChanged(index);
         }
     }
 
@@ -88,6 +136,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
             this.id = id;
             this.label = label;
             this.isChecked = isChecked;
+        }
+
+        private boolean setIsChecked(boolean isChecked) {
+            boolean didChange = this.isChecked != isChecked;
+            this.isChecked = isChecked;
+            return didChange;
         }
 
         public String getLabel() {

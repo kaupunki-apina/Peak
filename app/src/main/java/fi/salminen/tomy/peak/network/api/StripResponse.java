@@ -26,7 +26,6 @@ public class StripResponse implements Interceptor {
         Response response = chain.proceed(chain.request());
         String responseBody = response.body().string();
         String payload = stripExcess(responseBody);
-        System.out.println(payload);
         return repackage(response, payload);
     }
 
