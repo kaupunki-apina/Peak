@@ -8,7 +8,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -61,6 +63,7 @@ public class SelectLinesDialog extends DialogPreference {
                 .build();
 
         component.inject(this);
+        updateSummary();
     }
 
     @Override
@@ -100,6 +103,7 @@ public class SelectLinesDialog extends DialogPreference {
             }
 
             prefs.setSelectedLines(values);
+            updateSummary();
         }
     }
 
@@ -114,6 +118,30 @@ public class SelectLinesDialog extends DialogPreference {
         }
 
         return false;
+    }
+
+    private void updateSummary() {
+        Set<String> values = prefs.getStringSet(getKey(), null);
+
+        if (values == null) {
+            // TODO Unhardcode
+            setSummary("ALL");
+        } else if (values.size() == 0) {
+            // TODO Unhardcode
+            setSummary("None");
+        } else {
+            // TODO Sorting
+            List<String> list = new ArrayList<>(values);
+            Iterator<String> it = list.iterator();
+            StringBuilder sb = new StringBuilder();
+
+            while (it.hasNext()) {
+                sb.append(it.next());
+                if (it.hasNext()) sb.append(',');
+            }
+
+            setSummary(sb.toString());
+        }
     }
 
     private List<RecyclerViewAdapter.LineViewState> toViewStates(List<LineModel> lineModels) {
