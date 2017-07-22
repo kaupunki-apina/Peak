@@ -11,7 +11,7 @@
     <string name="prefs_select_lines_action_deselect_all">Deselect all</string>
 
     <!-- Summaries -->
-    <string name="prefs_select_lines_summary_none">None</string>
+    <string name="prefs_select_lines_summary_none">No selected lines</string>
 
 
 </resources>

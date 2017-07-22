@@ -31,7 +31,6 @@ public class MarkerManager {
     private Context context;
     private BusViewModelPool mBusPool;
     private boolean isFcoRegistered;
-    private MarkerManagerComponent component;
 
     @Inject
     IconFactory iconFactory;
@@ -45,12 +44,12 @@ public class MarkerManager {
     public MarkerManager(Context context) {
         this.context = context;
         this.isFcoRegistered = false;
-        this.component = DaggerMarkerManagerComponent.builder()
+
+        DaggerMarkerManagerComponent.builder()
                 .peakApplicationComponent(PeakApplication.getApplication(context).component())
                 .markerManagerModule(new MarkerManagerModule(context))
-                .build();
-
-        component.inject(this);
+                .build()
+                .inject(this);
     }
 
     public void manage(GoogleMap map) {

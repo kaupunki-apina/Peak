@@ -77,7 +77,6 @@ public class SelectLinesDialog extends DialogPreference {
                 .build();
 
         component.inject(this);
-        updateSummary();
     }
 
     @Override
@@ -91,6 +90,8 @@ public class SelectLinesDialog extends DialogPreference {
         View root = super.onCreateDialogView();
         this.mAdapter = new RecyclerViewAdapter();
         ButterKnife.bind(this, root);
+        
+        updateSummary();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         selectedLines.setAdapter(mAdapter);
