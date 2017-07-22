@@ -12,9 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -91,7 +89,7 @@ public class SelectLinesDialog extends DialogPreference {
         this.mAdapter = new RecyclerViewAdapter();
         ButterKnife.bind(this, root);
         
-        updateSummary();
+        // updateSummary();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         selectedLines.setAdapter(mAdapter);
@@ -151,7 +149,7 @@ public class SelectLinesDialog extends DialogPreference {
             }
 
             prefs.setSelectedLines(values);
-            updateSummary();
+            //updateSummary();
         }
     }
 
@@ -167,7 +165,7 @@ public class SelectLinesDialog extends DialogPreference {
 
         return false;
     }
-
+    /**
     private void updateSummary() {
         Set<String> values = prefs.getStringSet(getKey(), null);
 
@@ -190,6 +188,8 @@ public class SelectLinesDialog extends DialogPreference {
             setSummary(sb.toString());
         }
     }
+
+     **/
 
     private List<RecyclerViewAdapter.LineViewState> toViewStates(List<LineModel> lineModels) {
         List<RecyclerViewAdapter.LineViewState> lines = new LinkedList<>();
