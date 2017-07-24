@@ -83,7 +83,14 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
      * Use to prevent things such as Context from leaking.
      */
     public void dispose() {
-        // TODO
+        for (TViewModel viewModel : bound) {
+            viewModel.unbind();
+            viewModel.dispose();
+        }
+    }
+
+    public List<TViewModel> getViewModels() {
+        return bound;
     }
 
     abstract TViewModel newViewModel();

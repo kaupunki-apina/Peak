@@ -53,7 +53,7 @@ public abstract class BaseViewModel<TModel extends BaseRXModel> {
     /**
      * Unbinds ViewModel from a Model.
      *
-     * ViewModel should release all resources.
+     * ViewModel should release re-creatable resources.
      */
     protected abstract void onUnbindModel();
 
@@ -67,4 +67,9 @@ public abstract class BaseViewModel<TModel extends BaseRXModel> {
      * @param newModel Model to bind to
      */
     protected abstract void onRebindModel(@NonNull TModel newModel);
+
+    /**
+     * Should release all resources.
+     */
+    public abstract void dispose();
 }

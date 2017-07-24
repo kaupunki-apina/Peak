@@ -62,6 +62,11 @@ public class BusViewModel extends BaseViewModel<BusModel> {
         return new LatLng(model.latitude, model.longitude);
     }
 
+    @Override
+    public void dispose() {
+        this.map = null;
+    }
+
     public class BusMarkerTag implements MarkerTag {
         private String journeyPatternRef;
 

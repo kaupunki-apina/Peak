@@ -12,14 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
 import javax.inject.Inject;
 
+import butterknife.BindFloat;
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,6 +48,15 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
 
     @BindView(R.id.mapFragmentRoot)
     View root;
+
+    @BindFloat(R.dimen.map_default_lat)
+    float defaultLat;
+
+    @BindFloat(R.dimen.map_default_lng)
+    float defaultLng;
+
+    @BindInt(R.integer.map_default_zoom)
+    int defaultZoom;
 
     @Inject
     @ForFragment
@@ -103,6 +117,9 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
         this.mMap = googleMap;
         styleMap(mMap, mMapStyleJson);
 
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(defaultLat, defaultLng), defaultZoom);
+        mMap.animateCamera(center);
+
         UiSettings setting = this.mMap.getUiSettings();
         setting.setMapToolbarEnabled(false);
 
@@ -110,6 +127,7 @@ public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> im
             int padding = Ui.getStatusBarHeight(context);
             googleMap.setPadding(0, padding, 0, 0);
         }
+
 
         mMarkerManager.manage(mMap);
         mMap.setOnMarkerClickListener(marker -> {
