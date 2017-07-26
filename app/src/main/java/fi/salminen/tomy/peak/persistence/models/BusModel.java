@@ -46,6 +46,9 @@ public class BusModel extends BaseRXModel {
     @Column
     @Expose
     public Date validUntilTime;
+
+    // It's a bad idea to have representation data tied to
+    // the model itself, but it's incredibly easy to pass around this way ¯\_(ツ)_/¯
     public BitmapDescriptor icon;
 
     public static class Deserializer implements JsonDeserializer<BusModel> {

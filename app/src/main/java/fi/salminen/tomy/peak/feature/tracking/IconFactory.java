@@ -23,30 +23,14 @@ import io.reactivex.ObservableOnSubscribe;
 
 
 public class IconFactory {
+    private int resIdStationary;
+    private int resIdMoving;
+    private int resIdLabel;
 
-    private Context context;
-    private TextView journeyPatternRefLabel;
-    private View backgroundStationary;
-    private View backgroundMoving;
-    private int sideLength;
-    private int halfLength;
-    private Rect rect;
-    private int widthSpec;
-    private int heightSpec;
-
-    public IconFactory(Context context, int resIdLabel, int resIdStationary, int resIdMoving) {
-        this.context = context;
-        this.journeyPatternRefLabel = (TextView) inflate(resIdLabel);
-        this.backgroundStationary = inflate(resIdStationary);
-        this.backgroundMoving = inflate(resIdMoving);
-        this.sideLength = context.getResources().getDimensionPixelSize(R.dimen.bus_icon_side);
-        this.halfLength = sideLength / 2;
-
-        rect = new Rect();
-        rect.set(0, 0, sideLength, sideLength);
-
-        widthSpec = View.MeasureSpec.makeMeasureSpec(rect.width(), View.MeasureSpec.EXACTLY);
-        heightSpec = View.MeasureSpec.makeMeasureSpec(rect.height(), View.MeasureSpec.EXACTLY);
+    public IconFactory(int resIdLabel, int resIdStationary, int resIdMoving) {
+        this.resIdLabel = resIdLabel;
+        this.resIdStationary = resIdStationary;
+        this.resIdMoving = resIdMoving;
     }
 
     /**
@@ -55,9 +39,9 @@ public class IconFactory {
      * @param resId Resource Id
      * @return Inflated view
      */
-    private View inflate(int resId) {
+    private View inflate(Context context, int resId) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resId, null);
+        View view = LayoutInflater.from(context).inflate(resId, null);
 
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -65,10 +49,26 @@ public class IconFactory {
     }
 
 
-    public Observable<Void> getBusIcon(List<BusModel> models) {
+    public Observable<Void> getBusIcon(Context context, List<BusModel> models) {
         return Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
             public void subscribe(ObservableEmitter<Void> e) throws Exception {
+                // Views to draw onto canvas
+                TextView journeyPatternRefLabel = (TextView) inflate(context, resIdLabel);
+                View backgroundStationary = inflate(context, resIdStationary);
+                View backgroundMoving = inflate(context, resIdMoving);
+
+                // Marker dimensions
+                int sideLength = context.getResources().getDimensionPixelSize(R.dimen.bus_icon_side);
+                int halfLength = sideLength / 2;
+
+                Rect rect = new Rect();
+                rect.set(0, 0, sideLength, sideLength);
+
+                int widthSpec = View.MeasureSpec.makeMeasureSpec(rect.width(), View.MeasureSpec.EXACTLY);
+                int heightSpec = View.MeasureSpec.makeMeasureSpec(rect.height(), View.MeasureSpec.EXACTLY);
+
+
                 for (BusModel model : models) {
                     // Icon for moving has a direction indicator.
                     View background = model.speed < 3 ? backgroundStationary : backgroundMoving;

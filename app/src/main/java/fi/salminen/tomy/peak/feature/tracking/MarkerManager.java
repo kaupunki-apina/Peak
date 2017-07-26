@@ -89,7 +89,7 @@ public class MarkerManager {
     }
 
     private Disposable generateIconsAndUpdate(List<BusModel> busModels) {
-        return iconFactory.getBusIcon(busModels)
+        return iconFactory.getBusIcon(context, busModels)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> mBusPool.setData(busModels))
