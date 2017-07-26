@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import fi.salminen.tomy.peak.config.Constants;
 import fi.salminen.tomy.peak.persistence.PeakDatabase;
 
 
@@ -52,8 +53,7 @@ public class BusModel extends BaseRXModel {
     public BitmapDescriptor icon;
 
     public static class Deserializer implements JsonDeserializer<BusModel> {
-        // TODO Unhardcode date format.
-        private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        private SimpleDateFormat formatter = new SimpleDateFormat(Constants.API.DATE_FORMAT);
         private static final String TAG = Deserializer.class.getName();
 
         @Override
