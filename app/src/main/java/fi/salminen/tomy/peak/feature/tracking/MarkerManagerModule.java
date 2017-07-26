@@ -18,6 +18,6 @@ public class MarkerManagerModule {
 
     @Provides
     IconFactory provideIconFactory() {
-        return new IconFactory(context, R.layout.bus_icon_label, R.layout.bus_icon_stationary, R.layout.bus_icon_moving);
+        return new IconFactory(R.layout.bus_icon_label, R.layout.bus_icon_stationary, R.layout.bus_icon_moving);
     }
 }

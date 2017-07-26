@@ -20,18 +20,18 @@ import fi.salminen.tomy.peak.persistence.PeakPrefs;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
 import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
 import fi.salminen.tomy.peak.util.pool.BusViewModelPool;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 
-
 public class MarkerManager {
     private Context context;
     private BusViewModelPool mBusPool;
     private boolean isFcoRegistered;
-    private MarkerManagerComponent component;
+    private GoogleMap map;
 
     @Inject
     IconFactory iconFactory;
@@ -45,20 +45,23 @@ public class MarkerManager {
     public MarkerManager(Context context) {
         this.context = context;
         this.isFcoRegistered = false;
-        this.component = DaggerMarkerManagerComponent.builder()
+
+        DaggerMarkerManagerComponent.builder()
                 .peakApplicationComponent(PeakApplication.getApplication(context).component())
                 .markerManagerModule(new MarkerManagerModule(context))
-                .build();
-
-        component.inject(this);
+                .build()
+                .inject(this);
     }
 
     public void manage(GoogleMap map) {
-        if (mBusPool == null) mBusPool = new BusViewModelPool(map);
-        initMarkers();
+        if (mBusPool != null) mBusPool.dispose();
+        this.mBusPool = new BusViewModelPool(map);
+        this.map = map;
+
+        getModels().subscribe(this::generateIconsAndUpdate);
     }
 
-    private void initMarkers() {
+    private Single<List<BusModel>> getModels() {
         // Registers a flow content observer which listens for
         // changes in BusModel table.
         Action registerFco = () -> {
@@ -73,11 +76,10 @@ public class MarkerManager {
             isFcoRegistered = true;
         };
 
-        RXSQLite.rx(getBusSql())
+        return RXSQLite.rx(getBusSql())
                 .queryList()
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .doFinally(registerFco)
-                .subscribe(this::generateIconsAndUpdate);
+                .doFinally(registerFco);
     }
 
     public void dispose() {
@@ -87,7 +89,7 @@ public class MarkerManager {
     }
 
     private Disposable generateIconsAndUpdate(List<BusModel> busModels) {
-        return iconFactory.getBusIcon(busModels)
+        return iconFactory.getBusIcon(context, busModels)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> mBusPool.setData(busModels))

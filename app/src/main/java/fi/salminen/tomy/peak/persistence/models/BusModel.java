@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import fi.salminen.tomy.peak.config.Constants;
 import fi.salminen.tomy.peak.persistence.PeakDatabase;
 
 
@@ -46,11 +47,13 @@ public class BusModel extends BaseRXModel {
     @Column
     @Expose
     public Date validUntilTime;
+
+    // It's a bad idea to have representation data tied to
+    // the model itself, but it's incredibly easy to pass around this way ¯\_(ツ)_/¯
     public BitmapDescriptor icon;
 
     public static class Deserializer implements JsonDeserializer<BusModel> {
-        // TODO Unhardcode date format.
-        private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        private SimpleDateFormat formatter = new SimpleDateFormat(Constants.API.DATE_FORMAT);
         private static final String TAG = Deserializer.class.getName();
 
         @Override

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="map_default_lat" type="dimen" format="float">61.494446</item>
+    <item name="map_default_lng" type="dimen" format="float">23.762984</item>
+    <integer name="map_default_zoom">10</integer>
+</resources>

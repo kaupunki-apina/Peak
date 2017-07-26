@@ -36,7 +36,7 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
 
         // Remove excess bound ViewModels, if the number of bound
         // ViewModels exceed the number of Models.
-        for (int i = models.size(); i < bound.size(); i++) {
+        for (int i = bound.size() - 1; i >= models.size(); i--) {
             vm = bound.remove(i);
             vm.unbind();
             unbound.add(vm);
@@ -83,7 +83,14 @@ public abstract class ViewModelPool<TViewModel extends BaseViewModel, TModel ext
      * Use to prevent things such as Context from leaking.
      */
     public void dispose() {
-        // TODO
+        for (TViewModel viewModel : bound) {
+            viewModel.unbind();
+            viewModel.dispose();
+        }
+    }
+
+    public List<TViewModel> getViewModels() {
+        return bound;
     }
 
     abstract TViewModel newViewModel();

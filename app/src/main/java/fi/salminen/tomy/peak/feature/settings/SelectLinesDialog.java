@@ -1,22 +1,25 @@
 package fi.salminen.tomy.peak.feature.settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fi.salminen.tomy.peak.R;
@@ -42,6 +45,15 @@ public class SelectLinesDialog extends DialogPreference {
     @BindView(R.id.dialog_select_lines_progressBar)
     ProgressBar loadingIcon;
 
+    @BindString(R.string.prefs_select_lines_action_deselect_all)
+    String actionDeselectAll;
+
+    @BindString(R.string.prefs_select_lines_action_select_all)
+    String actionSelectAll;
+
+    @BindString(R.string.prefs_select_lines_summary_none)
+    String summaryNone;
+
     @Inject
     JourneysApi mApi;
 
@@ -63,7 +75,12 @@ public class SelectLinesDialog extends DialogPreference {
                 .build();
 
         component.inject(this);
-        updateSummary();
+    }
+
+    @Override
+    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+        super.onPrepareDialogBuilder(builder);
+        builder.setNeutralButton(actionDeselectAll, null);
     }
 
     @Override
@@ -71,6 +88,8 @@ public class SelectLinesDialog extends DialogPreference {
         View root = super.onCreateDialogView();
         this.mAdapter = new RecyclerViewAdapter();
         ButterKnife.bind(this, root);
+        
+        // updateSummary();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         selectedLines.setAdapter(mAdapter);
@@ -83,10 +102,37 @@ public class SelectLinesDialog extends DialogPreference {
                     mAdapter.setLines(toViewStates(lineModels));
                     selectedLines.setVisibility(View.VISIBLE);
                     loadingIcon.setVisibility(View.GONE);
+                    Button neutral = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_NEUTRAL);
+                    neutral.setText(mAdapter.isAllSelected() ? actionDeselectAll : actionSelectAll);
                 });
 
         return root;
     }
+
+    @Override
+    protected void showDialog(Bundle state) {
+        super.showDialog(state);
+        final Button neutral = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_NEUTRAL);
+        neutral.setOnClickListener(v -> {
+            if (mAdapter.isAllSelected()) {
+                mAdapter.deselectAll();
+                neutral.setText(actionSelectAll);
+            } else {
+                mAdapter.selectAll();
+                neutral.setText(actionDeselectAll);
+            }
+        });
+
+        // Update the label to correspond the action
+        this.mAdapter.getOnToggleObservable().subscribe(aVoid -> {
+            if (mAdapter.isAllSelected()) {
+                neutral.setText(actionDeselectAll);
+            } else {
+                neutral.setText(actionSelectAll);
+            }
+        });
+    }
+
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
@@ -103,7 +149,7 @@ public class SelectLinesDialog extends DialogPreference {
             }
 
             prefs.setSelectedLines(values);
-            updateSummary();
+            //updateSummary();
         }
     }
 
@@ -119,16 +165,15 @@ public class SelectLinesDialog extends DialogPreference {
 
         return false;
     }
-
+    /**
     private void updateSummary() {
         Set<String> values = prefs.getStringSet(getKey(), null);
 
         if (values == null) {
-            // TODO Unhardcode
+            // TODO Fetch available lines and display them
             setSummary("ALL");
         } else if (values.size() == 0) {
-            // TODO Unhardcode
-            setSummary("None");
+            setSummary(summaryNone);
         } else {
             // TODO Sorting
             List<String> list = new ArrayList<>(values);
@@ -143,6 +188,8 @@ public class SelectLinesDialog extends DialogPreference {
             setSummary(sb.toString());
         }
     }
+
+     **/
 
     private List<RecyclerViewAdapter.LineViewState> toViewStates(List<LineModel> lineModels) {
         List<RecyclerViewAdapter.LineViewState> lines = new LinkedList<>();

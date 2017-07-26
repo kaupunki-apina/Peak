@@ -5,4 +5,13 @@
 
     <!--Keys -->
     <string name="prefs_select_lines_key">selected-lines</string>
+
+    <!-- Actions -->
+    <string name="prefs_select_lines_action_select_all">Select all</string>
+    <string name="prefs_select_lines_action_deselect_all">Deselect all</string>
+
+    <!-- Summaries -->
+    <string name="prefs_select_lines_summary_none">No selected lines</string>
+
+
 </resources>
