@@ -49,10 +49,12 @@ public class IconFactory {
     }
 
 
-    public Observable<Void> getBusIcon(Context context, List<BusModel> models) {
+    public Observable<Void> getBusIcons(Context context, List<BusModel> models) {
         return Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
             public void subscribe(ObservableEmitter<Void> e) throws Exception {
+                if (context == null) throw new NullPointerException("Provided null context");
+
                 // Views to draw onto canvas
                 TextView journeyPatternRefLabel = (TextView) inflate(context, resIdLabel);
                 View backgroundStationary = inflate(context, resIdStationary);

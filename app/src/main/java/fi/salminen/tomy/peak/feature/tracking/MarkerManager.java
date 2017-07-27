@@ -2,6 +2,7 @@ package fi.salminen.tomy.peak.feature.tracking;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
@@ -89,11 +90,15 @@ public class MarkerManager {
     }
 
     private Disposable generateIconsAndUpdate(List<BusModel> busModels) {
-        return iconFactory.getBusIcon(context, busModels)
+        return iconFactory.getBusIcons(context, busModels)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> mBusPool.setData(busModels))
-                .subscribe();
+                .subscribe(
+                        // Only interested in onComplete
+                        (o) -> {},
+                        // May throw after orientation change.
+                        (e)-> Log.e(MarkerManager.this.getClass().getName(), e.getMessage()));
     }
 
     private Where<BusModel> getBusSql() {
