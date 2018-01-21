@@ -44,7 +44,7 @@ ext {
             javaxAnnotation        : '1.0',
             rxJava2                : '2.0.1',
             rxAndroid              : '2.0.1',
-            dbflow                 : '4.0.0-beta7',
+            dbflow                 : '4.2.0',
             retrofit2              : '2.2.0',
             retrofit2RxJava2Adapter: '2.2.0',
             retrofit2GsonConverter : '2.2.0',
@@ -92,7 +92,7 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$dependencyVersions.dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow:$dependencyVersions.dbflow"
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dependencyVersions.dbflow"
-    compile "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:$dependencyVersions.dbflow"
+    compile "com.github.Raizlabs.DBFlow:dbflow-rx2:$dependencyVersions.dbflow"
 
     // Junit
     testCompile "junit:junit:$dependencyVersions.junit"

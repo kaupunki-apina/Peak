@@ -23,15 +23,19 @@ public class MapboxManager extends MapManager<MapView> {
 
     @Inject
     public MapboxManager(@ForFragment Context context, FlowContentObserver fco, PeakPrefs prefs) {
-        super(fco, prefs);
+        super(fco, prefs, context);
         Mapbox.getInstance(context, BuildConfig.MAPBOX_KEY);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getMapView().onCreate(savedInstanceState);
         getMapView().getMapAsync(mapboxMap -> {
-           this.mMapboxMap = mapboxMap;
+            this.mMapboxMap = mapboxMap;
+            MapboxManager.this.getBusSubject().subscribe(buses -> {
+                // TODO
+            });
         });
     }
 

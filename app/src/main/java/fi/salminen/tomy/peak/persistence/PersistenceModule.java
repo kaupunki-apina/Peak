@@ -12,6 +12,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+import static fi.salminen.tomy.peak.config.Constants.Common.CONTENT_PROVIDER_AUTHORITY;
+
 
 @Module
 public class PersistenceModule {
@@ -24,7 +26,7 @@ public class PersistenceModule {
     @Provides
     @Singleton
     FlowContentObserver provideFlowContentObserver() {
-        FlowContentObserver fco = new FlowContentObserver();
+        FlowContentObserver fco = new FlowContentObserver(CONTENT_PROVIDER_AUTHORITY);
         fco.setNotifyAllUris(false);
         return fco;
     }
