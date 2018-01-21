@@ -33,5 +33,6 @@ captures/
 
 # Editor specific settings
 .idea
+*.iml
 
 app/src/main/res/values/api_keys\.xml
