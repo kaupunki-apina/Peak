@@ -1,7 +1,6 @@
 package fi.salminen.tomy.peak.feature.tracking;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,18 +17,10 @@ import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.core.BaseFragment;
 import fi.salminen.tomy.peak.feature.tracking.map.mapbox.MapboxManager;
 import fi.salminen.tomy.peak.inject.fragment.BaseFragmentModule;
-import fi.salminen.tomy.peak.inject.fragment.ForFragment;
 
 
 public class TrackingFragment extends BaseFragment<TrackingFragmentComponent> /* implements OnMapReadyCallback */ {
     private Unbinder mUnbinder;
-
-    // @BindView(R.id.mapView)
-    // MapView mMapView;
-
-    @Inject
-    @ForFragment
-    Context context;
 
     @Inject
     MapboxManager mMapManager;
