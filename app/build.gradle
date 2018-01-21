@@ -3,6 +3,12 @@ apply plugin: 'com.android.application'
 // RetroLambda
 apply plugin: 'me.tatarka.retrolambda'
 
+// Load private properties from local.properties.
+def propertiesFile = rootProject.file("app/local.properties")
+def props = new Properties()
+props.load(new FileInputStream(propertiesFile))
+
+
 android {
     compileSdkVersion 25
     defaultConfig {
@@ -12,7 +18,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
         buildConfigField 'String', 'URL_API_BASE', '"http://data.itsfactory.fi/journeys/api/1/"'
+        buildConfigField 'String', 'GOOGLE_MAPS_KEY', props.getProperty("google.maps.key")
+        resValue 'string', 'GOOGLE_MAPS_KEY', props.getProperty("google.maps.key")
+
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
