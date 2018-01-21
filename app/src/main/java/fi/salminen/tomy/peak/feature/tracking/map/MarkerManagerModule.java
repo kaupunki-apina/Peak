@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.feature.tracking;
+package fi.salminen.tomy.peak.feature.tracking.map;
 
 import android.content.Context;
 

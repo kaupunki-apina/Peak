@@ -19,6 +19,7 @@ android {
         buildConfigField 'String', 'URL_API_BASE', '"http://data.itsfactory.fi/journeys/api/1/"'
         buildConfigField 'String', 'GOOGLE_MAPS_KEY', props.getProperty("google.maps.key")
         resValue 'string', 'GOOGLE_MAPS_KEY', props.getProperty("google.maps.key")
+        buildConfigField 'String', 'MAPBOX_KEY', props.getProperty("mapbox.key")
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -52,6 +53,7 @@ ext {
             espresso               : '2.2.2',
             gmaps                  : '10.2.1',
             butterknife            : '8.4.0',
+            mapbox                 : '5.3.1',
             storebox               : '1.4.0'
     ]
 }
@@ -104,4 +106,7 @@ dependencies {
 
     // StoreBox
     compile "net.orange-box.storebox:storebox-lib:$dependencyVersions.storebox"
+
+    // Mapbox
+    compile "com.mapbox.mapboxsdk:mapbox-android-sdk:$dependencyVersions.mapbox"
 }

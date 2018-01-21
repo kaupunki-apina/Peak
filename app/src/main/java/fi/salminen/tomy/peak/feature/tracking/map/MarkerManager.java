@@ -1,4 +1,4 @@
-package fi.salminen.tomy.peak.feature.tracking;
+package fi.salminen.tomy.peak.feature.tracking.map;
 
 
 import android.content.Context;
@@ -16,7 +16,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import fi.salminen.tomy.peak.app.PeakApplication;
 import fi.salminen.tomy.peak.persistence.PeakPrefs;
 import fi.salminen.tomy.peak.persistence.models.BusModel;
 import fi.salminen.tomy.peak.persistence.models.BusModel_Table;
@@ -47,11 +46,13 @@ public class MarkerManager {
         this.context = context;
         this.isFcoRegistered = false;
 
+        /**
         DaggerMarkerManagerComponent.builder()
                 .peakApplicationComponent(PeakApplication.getApplication(context).component())
                 .markerManagerModule(new MarkerManagerModule(context))
                 .build()
                 .inject(this);
+         **/
     }
 
     public void manage(GoogleMap map) {
