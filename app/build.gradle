@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
 
-// RetroLambda
-apply plugin: 'me.tatarka.retrolambda'
-
 // Load private properties from local.properties.
 def propertiesFile = rootProject.file("app/local.properties")
 def props = new Properties()
