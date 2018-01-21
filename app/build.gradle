@@ -7,11 +7,11 @@ props.load(new FileInputStream(propertiesFile))
 
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 27
     defaultConfig {
         applicationId "fi.salminen.tomy.peak"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -38,8 +38,8 @@ android {
 
 ext {
     dependencyVersions = [
-            androidSupportLibrary  : '25.3.1',
-            dagger2                : '2.9',
+            androidSupportLibrary  : '27.0.2',
+            dagger2                : '2.14.1',
             javaxAnnotation        : '1.0',
             rxJava2                : '2.0.1',
             rxAndroid              : '2.0.1',
